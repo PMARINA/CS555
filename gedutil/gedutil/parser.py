@@ -42,7 +42,7 @@ class GED_Line:
         return not isinstance(self.tag, str)
 
 
-class GED_Parser:
+class Parser:
     def __init__(self, GED_Input: str):
         ged_input_string = ""
         if os.path.exists(GED_Input):

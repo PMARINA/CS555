@@ -353,4 +353,3 @@ dependencies:
     - pyinputplus==0.2.12
     - pysimplevalidate==0.2.12
     - stdiomask==0.0.6
-prefix: /Users/pmarina/opt/anaconda3/envs/CS555

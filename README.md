@@ -24,6 +24,7 @@ This project will involve analyzing GEDCOM files. [Wikipedia Page on GEDCOM](htt
     * `conda env create -f environment.yml`
   * `conda activate CS555`
     * You will need to run this every time you open a new terminal
+  * `conda develop gedutil`
 * `pre-commit install`
   * You will have to run this every time you clone the repo somewhere new
 
