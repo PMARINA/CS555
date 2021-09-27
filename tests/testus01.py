@@ -68,3 +68,17 @@ class TestUS01(unittest.TestCase):
         p.parse()
         with self.assertRaises(ValueError):
             u.run()
+
+    def test_birth_nonsensical_date(self):
+        u = US01()
+        p = Parser("../old/tests/custom/input.ged")
+        p.read()
+        for i in range(len(p.parsed_lines)):
+            if p.parsed_lines[i].tag == GED_Tag.BIRT:
+                newDate = "totally not a date"
+                orig = p.parsed_lines[i + 1]
+                p.parsed_lines[i + 1] = GED_Line(orig.level, orig.tag, args=newDate)
+                break
+        p.parse()
+        with self.assertRaises(ValueError):
+            u.run()
