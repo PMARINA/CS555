@@ -13,6 +13,8 @@ def reset_database():
     our_db.drop_collection("families")
     individuals = our_db.create_collection("individuals")
     families = our_db.create_collection("families")
+    individuals.create_index("ged_id")
+    families.create_index("fam_id")
 
 
 # if __name__ == "__main__":

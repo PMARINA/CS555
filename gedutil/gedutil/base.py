@@ -38,5 +38,5 @@ class Hook:
     def __init__(self):
         raise NotImplementedError("Must be overridden by a hook")
 
-    def process(self, line: GED_Line):
+    def process(self, line: GED_Line, last_was_valid: bool):
         raise NotImplementedError("Must be overridden by a hook")

@@ -5,8 +5,20 @@ import regex as re
 from loguru import logger
 
 from .base import GED_Line, GED_Tag, Hook
+from .hooks.birt import Birt
+from .hooks.chil import Chil
+from .hooks.date import Date
+from .hooks.deat import Deat
+from .hooks.div import Div
+from .hooks.fam import Fam
+from .hooks.famc import Famc
+from .hooks.fams import Fams
+from .hooks.husb import Husb
 from .hooks.indi import Indi
+from .hooks.marr import Marr
 from .hooks.name import Name
+from .hooks.sex import Sex
+from .hooks.wife import Wife
 
 verbose = False
 if not verbose:
@@ -15,7 +27,22 @@ if not verbose:
 
 class Parser:
 
-    hooks = {GED_Tag.INDI: Indi(), GED_Tag.NAME: Name()}
+    hooks = {
+        GED_Tag.INDI: Indi(),
+        GED_Tag.NAME: Name(),
+        GED_Tag.SEX: Sex(),
+        GED_Tag.DATE: Date(),
+        GED_Tag.BIRT: Birt(),
+        GED_Tag.DEAT: Deat(),
+        GED_Tag.FAM: Fam(),
+        GED_Tag.FAMC: Famc(),
+        GED_Tag.FAMS: Fams(),
+        GED_Tag.MARR: Marr(),
+        GED_Tag.DIV: Div(),
+        GED_Tag.HUSB: Husb(),
+        GED_Tag.WIFE: Wife(),
+        GED_Tag.CHIL: Chil(),
+    }
 
     def __init__(self, GED_Input: str):
         ged_input_string = ""
@@ -74,9 +101,13 @@ class Parser:
             self.parsed_lines.append(parsed_line)
 
     def parse(self):
+        last_is_valid = False
         for line in self.parsed_lines:
             if line.tag in self.hooks:
-                self.hooks[line.tag].process(line)
+                self.hooks[line.tag].process(line, last_is_valid)
+                last_is_valid = True
+            else:
+                last_is_valid = False
 
     def print_input_output_project_2_assignment(self):
         for i in range(len(self.raw_input_lines)):

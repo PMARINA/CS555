@@ -8,7 +8,7 @@ class Indi(Hook):
     def __init__(self):
         pass
 
-    def process(self, line: GED_Line):
+    def process(self, line: GED_Line, last_was_valid):
         # level, tag, args
         if line.tag != GED_Tag.INDI:
             return
