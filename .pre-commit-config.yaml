@@ -13,10 +13,6 @@ repos:
     -   id: mixed-line-ending
         args: ['--fix=lf']
     -   id: requirements-txt-fixer
-    -   id: trailing-whitespace
-    -   id: trailing-whitespace
-    -   id: trailing-whitespace
-    -   id: trailing-whitespace
 -   repo: https://github.com/PyCQA/isort
     rev: '5.9.3'  # Use the sha / tag you want to point at
     hooks:
@@ -29,3 +25,4 @@ repos:
     rev: 'v0.910'  # Use the sha / tag you want to point at
     hooks:
     -   id: mypy
+        args: ['--non-interactive', '--install-types', '--ignore-missing-imports']
