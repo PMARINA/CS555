@@ -10,7 +10,7 @@ class Fam(Hook):
 
     def process(self, line: GED_Line, last_was_valid):
         # level, tag, args
-        if line.tag != GED_Tag.FAM:
+        if line.tag != GED_Tag.FAM or not last_was_valid:
             return
         if line.level != 0:
             raise Exception(f"FAM: level ({line.level}) was expected to be 0")

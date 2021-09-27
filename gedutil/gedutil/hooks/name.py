@@ -10,7 +10,7 @@ class Name(Hook):
 
     def process(self, line: GED_Line, last_was_valid):
         # level, tag, args
-        if line.tag != GED_Tag.NAME:
+        if line.tag != GED_Tag.NAME or not last_was_valid:
             return
         if line.level != 1:
             raise Exception(f"NAME: level ({line.level}) was expected to be 1")

@@ -1,10 +1,9 @@
 import os
-from typing import *
 
 import regex as re
 from loguru import logger
 
-from .base import GED_Line, GED_Tag, Hook
+from .base import GED_Line, GED_Tag
 from .hooks.birt import Birt
 from .hooks.chil import Chil
 from .hooks.date import Date
@@ -101,10 +100,20 @@ class Parser:
             self.parsed_lines.append(parsed_line)
 
     def parse(self):
+        current_level = -1
+        structure = []
         last_is_valid = False
+        structure_is_valid = False
         for line in self.parsed_lines:
+            if line.level <= current_level:
+                structure = structure[: line.level + 1]
+                structure[line.level] = line.tag
+            else:
+                structure.append(line.tag)
+            current_level = line.level
+            structure_is_valid = all([type(i) != str for i in structure])
             if line.tag in self.hooks:
-                self.hooks[line.tag].process(line, last_is_valid)
+                self.hooks[line.tag].process(line, structure_is_valid)
                 last_is_valid = True
             else:
                 last_is_valid = False
