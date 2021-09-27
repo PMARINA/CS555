@@ -28,6 +28,19 @@ This project will involve analyzing GEDCOM files. [Wikipedia Page on GEDCOM](htt
 * `pre-commit install`
   * You will have to run this every time you clone the repo somewhere new
 
+### Implementing a new user story
+
+* Please create a branch off of `main` and name it `USXX`. Follow the structure from US01 unless we decide to refactor, as a team
+* After completing testing, please submit a pull request and wait for all other team members to approve it before merging it back into main. All testcases must pass. If they don't, we will rebase back to the last working commit and the pull request will have to be re-requested.
+* The person submitting the pull request should complete the merge after everyone has marked it as approved
+* The merge strategy will be merge, and not rebase.
+
+### How to test
+
+* `conda activate CS555`
+* `cd CS555/tests`
+* `python -m unittest`
+
 ## Commit Guidelines
 
 We will be using commit messages of the following format:
