@@ -1,48 +1,22 @@
 import os
-from dataclasses import dataclass
-from enum import Enum, auto
 from typing import *
 
 import regex as re
 from loguru import logger
+
+from .base import GED_Line, GED_Tag, Hook
+from .hooks.indi import Indi
+from .hooks.name import Name
 
 verbose = False
 if not verbose:
     logger.disable(__name__)
 
 
-class GED_Tag(Enum):
-    INDI = auto()
-    NAME = auto()
-    SEX = auto()
-    BIRT = auto()
-    DEAT = auto()
-    FAMC = auto()
-    FAMS = auto()
-    FAM = auto()
-    MARR = auto()
-    HUSB = auto()
-    WIFE = auto()
-    CHIL = auto()
-    DIV = auto()
-    DATE = auto()
-    HEAD = auto()
-    TRLR = auto()
-    NOTE = auto()
-
-
-@dataclass(frozen=True)
-class GED_Line:
-    __slots__ = "level", "tag", "args"
-    level: int
-    tag: Union[GED_Tag, str]
-    args: str
-
-    def is_valid(self):
-        return not isinstance(self.tag, str)
-
-
 class Parser:
+
+    hooks = {GED_Tag.INDI: Indi(), GED_Tag.NAME: Name()}
+
     def __init__(self, GED_Input: str):
         ged_input_string = ""
         if os.path.exists(GED_Input):
@@ -55,7 +29,7 @@ class Parser:
         self.raw_input = ged_input_string
         self.raw_input_lines = ged_input_string.splitlines()
 
-    def parse(self):
+    def read(self):
         self.parsed_lines = []
         regex_type1 = re.compile(
             r"^([0-2])\s(INDI|NAME|SEX|BIRT|DEAT|FAMC|FAMS|FAM|MARR|HUSB|WIFE|CHIL|DIV|DATE|HEAD|TRLR|NOTE)\s(.*)$"
@@ -67,14 +41,14 @@ class Parser:
             match1 = regex_type1.match(line)
             if match1:
                 # Follows format number, tag, stuff
-                level = match1.group(1)
+                level = int(match1.group(1))
                 tag = match1.group(2)
                 args = match1.group(3)
             else:
                 match2 = regex_type2.match(line)
                 if match2:
                     # Follows format number, stuff, tag
-                    level = match2.group(1)
+                    level = int(match2.group(1))
                     args = match2.group(2)
                     tag = match2.group(3)
                     pass
@@ -82,13 +56,13 @@ class Parser:
                     # Format unrecognized... maybe need to debug?
                     match3 = regex_type3.match(line)
                     if match3:
-                        level = match3.group(1)
+                        level = int(match3.group(1))
                         tag = match3.group(2)
                         args = match3.group(3)
                     else:
                         match4 = regex_type4.match(line)
                         if match4:
-                            level = match4.group(1)
+                            level = int(match4.group(1))
                             args = match4.group(2)
                             tag = match4.group(3)
                         else:
@@ -98,6 +72,11 @@ class Parser:
                 tag = GED_Tag[tag]
             parsed_line: GED_Line = GED_Line(level, tag, args.strip())
             self.parsed_lines.append(parsed_line)
+
+    def parse(self):
+        for line in self.parsed_lines:
+            if line.tag in self.hooks:
+                self.hooks[line.tag].process(line)
 
     def print_input_output_project_2_assignment(self):
         for i in range(len(self.raw_input_lines)):
