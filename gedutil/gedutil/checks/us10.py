@@ -19,12 +19,16 @@ class US10(Check):
 
         # Go through the families
         for doc in families.find():
-            ids_of_people = doc["wife"]
-            ids_of_people.extend(doc["husb"])
+            if "wife" not in doc:
+                ids_of_people = []
+            else:
+                ids_of_people = doc["wife"]
+            if "husb" in doc:
+                ids_of_people.extend(doc["husb"])
             if "marr" not in doc:
                 continue
             marriage_date = parseDate(doc["marr"])
-            latest_birth_date = marriage_date - timedelta(years=14)
+            latest_birth_date = marriage_date - timedelta(days=365*14)
             for id in ids_of_people:
                 person = individuals.find_one({"ged_id": id})
                 if "birt" not in person:

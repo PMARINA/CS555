@@ -16,3 +16,10 @@ class TestUS10(unittest.TestCase):
         p.parse()
         with self.assertRaises(ValueError):
             u.run()
+
+    def test_valid(self):
+        u = US10()
+        p = Parser("../old/tests/custom/input.ged")
+        p.read()
+        p.parse()
+        u.run()
