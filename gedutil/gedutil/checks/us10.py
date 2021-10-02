@@ -21,11 +21,15 @@ class US10(Check):
         for doc in families.find():
             ids_of_people = doc["wife"]
             ids_of_people.extend(doc["husb"])
-            # if ''
+            if "marr" not in doc:
+                continue
             marriage_date = parseDate(doc["marr"])
             latest_birth_date = marriage_date - timedelta(years=14)
             for id in ids_of_people:
                 person = individuals.find_one({"ged_id": id})
+                if "birt" not in person:
+                    f"This person does not have a recorded birth date."
+                    continue
                 birth_date = parseDate(person["birt"])
                 if birth_date >= latest_birth_date:
                     raise ValueError(
