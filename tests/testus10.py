@@ -11,7 +11,7 @@ class TestUS10(unittest.TestCase):
 
     def test_marr14(self):
         u = US10()
-        p = Parser("../old/tests/custom/input2.ged")
+        p = Parser("input_files/US10/early_marriage.ged")
         p.read()
         p.parse()
         with self.assertRaises(ValueError):
@@ -19,7 +19,7 @@ class TestUS10(unittest.TestCase):
 
     def test_valid(self):
         u = US10()
-        p = Parser("../old/tests/custom/input.ged")
+        p = Parser("input_files/US10/control.ged")
         p.read()
         p.parse()
         u.run()
