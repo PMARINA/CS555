@@ -2,6 +2,8 @@ import unittest
 
 from gedutil import US01, GED_Line, GED_Tag, Parser
 
+TEST_FILE_PATH = "input_files/US01/control.ged"
+
 
 class TestUS01(unittest.TestCase):
     """
@@ -13,7 +15,7 @@ class TestUS01(unittest.TestCase):
 
     def test_birth(self):
         u = US01()
-        p = Parser("../old/tests/custom/input.ged")
+        p = Parser(TEST_FILE_PATH)
         p.read()
         for i in range(len(p.parsed_lines)):
             if p.parsed_lines[i].tag == GED_Tag.BIRT:
@@ -27,7 +29,7 @@ class TestUS01(unittest.TestCase):
 
     def test_death(self):
         u = US01()
-        p = Parser("../old/tests/custom/input.ged")
+        p = Parser(TEST_FILE_PATH)
         p.read()
         for i in range(len(p.parsed_lines)):
             if p.parsed_lines[i].tag == GED_Tag.DEAT:
@@ -41,7 +43,7 @@ class TestUS01(unittest.TestCase):
 
     def test_divorce(self):
         u = US01()
-        p = Parser("../old/tests/custom/input.ged")
+        p = Parser(TEST_FILE_PATH)
         p.read()
         for i in range(len(p.parsed_lines)):
             if p.parsed_lines[i].tag == GED_Tag.MARR:
@@ -57,7 +59,7 @@ class TestUS01(unittest.TestCase):
 
     def test_marriage(self):
         u = US01()
-        p = Parser("../old/tests/custom/input.ged")
+        p = Parser(TEST_FILE_PATH)
         p.read()
         for i in range(len(p.parsed_lines)):
             if p.parsed_lines[i].tag == GED_Tag.MARR:
@@ -71,7 +73,7 @@ class TestUS01(unittest.TestCase):
 
     def test_birth_nonsensical_date(self):
         u = US01()
-        p = Parser("../old/tests/custom/input.ged")
+        p = Parser(TEST_FILE_PATH)
         p.read()
         for i in range(len(p.parsed_lines)):
             if p.parsed_lines[i].tag == GED_Tag.BIRT:
