@@ -18,6 +18,7 @@ from .hooks.marr import Marr
 from .hooks.name import Name
 from .hooks.sex import Sex
 from .hooks.wife import Wife
+from .mongo_client import reset_database
 
 verbose = False
 if not verbose:
@@ -100,6 +101,7 @@ class Parser:
             self.parsed_lines.append(parsed_line)
 
     def parse(self):
+        reset_database()
         current_level = -1
         structure = []
         last_is_valid = False
