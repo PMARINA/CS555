@@ -6,6 +6,7 @@ if DEBUG_IMPORTS:
 
 from .base import GED_Line, GED_Tag
 from .checks.us01 import US01
+from .checks.us06 import US06
 from .checks.us10 import US10
 from .parser import Parser
 from .tabular_output import Tabular_Output
