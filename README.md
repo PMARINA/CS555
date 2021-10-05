@@ -21,7 +21,7 @@ This project will involve analyzing GEDCOM files. [Wikipedia Page on GEDCOM](htt
 * Clone this repository
 * `conda env create -f environment.yml`
   * If a new package is installed (prefer conda over pip) (all at the top level of the repo):
-    * `conda env export > environment.yml`
+    * Edit environment.yml manually and add the package, optionally with the version, if significant
     * `conda deactivate`
     * `conda env remove -n CS555`
     * `conda env create -f environment.yml`
