@@ -8,8 +8,8 @@ This project will involve analyzing GEDCOM files. [Wikipedia Page on GEDCOM](htt
 
 * Imran Ali
 * Pridhvi Myneni - B.E. Computer Engineering exp Dec 2021
-* Anjali Paliwal
-* Manthan Patel 
+* Anjali Paliwal - B.E. Software Engineering exp May 2022
+* Manthan Patel
 
 ## Developer Guidelines
 
