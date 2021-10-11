@@ -6,6 +6,7 @@ from dateutil.parser import parse as parseDate
 from gedutil.mongo_client import families, individuals
 
 from .check import Check
+from .utils.get_fam_info import get_parents_from_doc
 
 
 class US06(Check):
@@ -19,16 +20,11 @@ class US06(Check):
 
         # Go through the families
         for doc in families.find():
-            if "wife" not in doc:
-                ids_of_people = []
-            else:
-                ids_of_people = doc["wife"]
-            if "husb" in doc:
-                ids_of_people.extend(doc["husb"])
             if "div" not in doc:
                 continue
             divorce_date = parseDate(doc["div"])
-            # latest_birth_date = marriage_date - timedelta(days=365 * 14)
+
+            ids_of_people = get_parents_from_doc(doc)
             for id in ids_of_people:
                 person = individuals.find_one({"ged_id": id})
                 if "deat" not in person:
