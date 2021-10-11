@@ -13,8 +13,10 @@ class Deat(Hook):
         if line.tag != GED_Tag.DEAT or not last_was_valid:
             return
         if line.level != 1:
-            raise Exception(f"DEAT: level ({line.level}) was expected to be 1")
-        Date.fromType = "deat"
+            raise Exception(
+                f"{GED_Tag.DEAT.name}: level ({line.level}) was expected to be 1"
+            )
+        Date.fromType = GED_Tag.DEAT.name
         Date.fromIndi = Indi.last_inserted
         Date.isIndi = True
         Date.isMarr = False

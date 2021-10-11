@@ -4,6 +4,7 @@ from dateutil import parser as dateParse
 from dateutil.relativedelta import relativedelta as rd
 from prettytable import PrettyTable
 
+from .base import ID, GED_Tag
 from .mongo_client import families, individuals
 
 
@@ -28,22 +29,28 @@ class Tabular_Output:
         rows = []
         for i in individuals.find():
             row = []
-            row.append(i["ged_id"] if "ged_id" in i else "")
-            row.append(i["name"] if "name" in i else "")
-            row.append(i["sex"] if "sex" in i else "")
-            row.append(i["birt"] if "birt" in i else "")
+            row.append(i[ID.IND_ID.name] if ID.IND_ID.name in i else "")
+            row.append(i[GED_Tag.NAME.name] if GED_Tag.NAME.name in i else "")
+            row.append(i[GED_Tag.SEX.name] if GED_Tag.SEX.name in i else "")
+            row.append(i[GED_Tag.BIRT.name] if GED_Tag.BIRT.name in i else "")
             date_to_compare = (
-                dateParse.parse(i["deat"]) if "deat" in i else datetime.now()
+                dateParse.parse(i[GED_Tag.DEAT.name])
+                if GED_Tag.DEAT.name in i
+                else datetime.now()
             )
             age = (
-                (rd(dt1=date_to_compare, dt2=dateParse.parse(i["birt"])).years)
-                if "birt" in i
+                (
+                    rd(
+                        dt1=date_to_compare, dt2=dateParse.parse(i[GED_Tag.BIRT.name])
+                    ).years
+                )
+                if GED_Tag.BIRT.name in i
                 else ""
             )
             row.append(age)
-            row.append(False if "deat" in i else True)
-            row.append(i["deat"] if "deat" in i else "")
-            for field in ["famc", "fams"]:
+            row.append(False if GED_Tag.DEAT.name in i else True)
+            row.append(i[GED_Tag.DEAT.name] if GED_Tag.DEAT.name in i else "")
+            for field in [GED_Tag.FAMC.name, GED_Tag.FAMS.name]:
                 if field in i:
                     ids = []
                     for id in i[field]:
@@ -75,29 +82,33 @@ class Tabular_Output:
         rows = []
         for f in families.find():
             row = []
-            row.append(f["fam_id"] if "fam_id" in f else "")
-            row.append(f["marr"] if "marr" in f else "")
-            row.append(f["div"] if "div" in f else "")
-            for field in ["husb", "wife"]:
+            row.append(f[ID.FAM_ID.name] if ID.FAM_ID.name in f else "")
+            row.append(f[GED_Tag.MARR.name] if GED_Tag.MARR.name in f else "")
+            row.append(f[GED_Tag.DIV.name] if GED_Tag.DIV.name in f else "")
+            for field in [GED_Tag.HUSB.name, GED_Tag.WIFE.name]:
                 if field in f:
                     if len(f[field]) > 1:
                         husbs = "{" + ", ".join(f[field]) + "}"
                         husbnames = []
                         for id in f[field]:
                             husbnames.append(
-                                individuals.find_one({"ged_id": id})["name"]
+                                individuals.find_one({ID.IND_ID.name: id})[
+                                    GED_Tag.NAME.name
+                                ]
                             )
                         husbnames = "{ " + ", ".join(husbnames) + " }"
                     else:
                         husbs = f[field][0]
-                        husbnames = individuals.find_one({"ged_id": husbs})["name"]
+                        husbnames = individuals.find_one({ID.IND_ID.name: husbs})[
+                            GED_Tag.NAME.name
+                        ]
                 else:
                     husbs = ""
                     husbnames = ""
                 row.append(husbs)
                 row.append(husbnames)
-            chil = ["'" + i + "'" for i in f["chil"]]
-            row.append(("{" + ", ".join(chil) + "}") if "chil" in f else "")
+            chil = ["'" + i + "'" for i in f[GED_Tag.CHIL.name]]
+            row.append(("{" + ", ".join(chil) + "}") if GED_Tag.CHIL.name in f else "")
             rows.append(row)
 
         rows.sort(key=lambda a: a[0])

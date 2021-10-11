@@ -3,6 +3,7 @@ from threading import current_thread
 
 from dateutil.parser import parse as parseDate
 
+from gedutil.base import GED_Tag
 from gedutil.mongo_client import families, individuals
 
 from .check import Check
@@ -25,10 +26,10 @@ class US01(Check):
         pass
 
     def run(self):
-        self.checkField(individuals, "birt")
-        self.checkField(families, "marr")
-        self.checkField(families, "div")
-        self.checkField(individuals, "deat")
+        self.checkField(individuals, GED_Tag.BIRT.name)
+        self.checkField(families, GED_Tag.MARR.name)
+        self.checkField(families, GED_Tag.DIV.name)
+        self.checkField(individuals, GED_Tag.DEAT.name)
 
     def check_field_in_future(self, s: str, datetype: str = ""):
         try:

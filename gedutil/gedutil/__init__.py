@@ -4,7 +4,7 @@ if DEBUG_IMPORTS:
 
 # Imports for testing (user stories)
 
-from .base import GED_Line, GED_Tag
+from .base import ID, GED_Line, GED_Tag
 from .checks.us01 import US01
 from .checks.us06 import US06
 from .checks.us10 import US10

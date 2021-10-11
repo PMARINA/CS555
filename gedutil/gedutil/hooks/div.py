@@ -12,8 +12,10 @@ class Div(Hook):
         if line.tag != GED_Tag.DIV or not last_was_valid:
             return
         if line.level != 1:
-            raise Exception(f"DIV: level ({line.level}) was expected to be 1")
-        Date.fromType = "div"
+            raise Exception(
+                f"{GED_Tag.DIV.name}: level ({line.level}) was expected to be 1"
+            )
+        Date.fromType = GED_Tag.DIV.name
         Date.fromFam = line.args
         Date.isIndi = False
         Date.isMarr = False

@@ -1,4 +1,4 @@
-from gedutil.base import GED_Line, GED_Tag, Hook
+from gedutil.base import ID, GED_Line, GED_Tag, Hook
 from gedutil.mongo_client import families, individuals
 
 from .fam import Fam
@@ -22,9 +22,11 @@ class Date(Hook):
         if last_was_valid:
             if line.level == 2 and (Date.isIndi and not Date.isMarr and not Date.isDiv):
                 individuals.update_one(
-                    {"ged_id": Indi.last_inserted}, {"$set": {Date.fromType: line.args}}
+                    {ID.IND_ID.name: Indi.last_inserted},
+                    {"$set": {Date.fromType: line.args}},
                 )
             elif line.level == 2 and ((Date.isMarr or Date.isDiv) and not Date.isIndi):
                 families.update_one(
-                    {"fam_id": Fam.last_inserted}, {"$set": {Date.fromType: line.args}}
+                    {ID.FAM_ID.name: Fam.last_inserted},
+                    {"$set": {Date.fromType: line.args}},
                 )
