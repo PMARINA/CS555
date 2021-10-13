@@ -22,9 +22,10 @@ This project will involve analyzing GEDCOM files. [Wikipedia Page on GEDCOM](htt
     * `conda deactivate`
     * `conda env remove -n CS555`
     * `conda env create -f environment.yml`
-  * `conda activate CS555`
-    * You will need to run this every time you open a new terminal
-  * `conda develop gedutil`
+    * `conda activate CS555`
+      * You will need to run this every time you open a new terminal
+    * `conda develop gedutil`
+      * This only needs to be run any time you create/re-create the environment
 * `pre-commit install`
   * You will have to run this every time you clone the repo somewhere new
 
@@ -38,8 +39,7 @@ This project will involve analyzing GEDCOM files. [Wikipedia Page on GEDCOM](htt
 ### How to test
 
 * `conda activate CS555`
-* `cd CS555/tests`
-* `python -m unittest`
+* `pytest`
 
 ## Commit Guidelines
 
