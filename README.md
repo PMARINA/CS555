@@ -1,5 +1,9 @@
 # CS555 Course Project
 
+## Status
+
+[![All Tests Passing](https://github.com/PMARINA/CS555/actions/workflows/python-actions.yml/badge.svg)](https://github.com/PMARINA/CS555/actions/workflows/python-actions.yml)
+
 ## About
 
 This project will involve analyzing GEDCOM files. [Wikipedia Page on GEDCOM](https://en.wikipedia.org/wiki/GEDCOM).
