@@ -6,28 +6,38 @@ name: Python application
 on: [push, pull_request]
 
 jobs:
-  build:
-
+  Setup:
+    name: Setup
     runs-on: ubuntu-latest
-
+    defaults:
+      run:
+        shell: bash -l {0}
     steps:
     - uses: actions/checkout@v2
-    - uses: s-weigand/setup-conda@v1
+    - uses: conda-incubator/setup-miniconda@v2
+      with:
+        activate-environment: anaconda-client-env
+        environment-file: environment.yml
+        python-version: 3.8
+        # condarc-file: etc/example-condarc.yml
+        auto-activate-base: false
+    - run: |
+        conda activate anaconda-client-env
+        conda info
+        conda list
+        conda install conda-build
+
     - name: Start MongoDB
       uses: supercharge/mongodb-github-action@1.6.0
       with:
         mongodb-version: 5.0
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
-        pip install flake8 pytest
-        conda env create -f environment.yml
-        conda activate CS555
         conda develop gedutil
         pre-commit install
     - name: Verify Formatting
       run: |
         pre-commit run --all-files
-    - name: Test with pytest
+    - name: Run Tests
       run: |
         pytest
