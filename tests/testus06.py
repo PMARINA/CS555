@@ -5,7 +5,7 @@ from gedutil import US06, GED_Line, GED_Tag, Parser
 
 class TestUS06(unittest.TestCase):
     """
-    This test checks to see that death only occurred after divorce.
+    This test checks to see that death only occurred after marriage.
 
     """
 
