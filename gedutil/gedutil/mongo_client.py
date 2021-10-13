@@ -1,5 +1,6 @@
-from config import DATABASE_NAME, FAMILIES_COLLECTION_NAME, INDIVIDUALS_COLLECTION_NAME
 from pymongo import MongoClient
+
+from .config import DATABASE_NAME, FAMILIES_COLLECTION_NAME, INDIVIDUALS_COLLECTION_NAME
 
 client = MongoClient()
 

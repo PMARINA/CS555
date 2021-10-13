@@ -35,13 +35,13 @@ class GED_Line:
     tag: Union[GED_Tag, str]
     args: str
 
-    def is_valid(self):
+    def is_valid(self):  # pragma: no cover
         return not isinstance(self.tag, str)
 
 
 class Hook:
-    def __init__(self):
+    def __init__(self):  # pragma: no cover
         raise NotImplementedError("Must be overridden by a hook")
 
-    def process(self, line: GED_Line, last_was_valid: bool):
+    def process(self, line: GED_Line, last_was_valid: bool):  # pragma: no cover
         raise NotImplementedError("Must be overridden by a hook")

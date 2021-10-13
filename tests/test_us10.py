@@ -2,6 +2,8 @@ import unittest
 
 from gedutil import US10, GED_Line, GED_Tag, Parser
 
+from .path_util import stabilize
+
 
 class TestUS10(unittest.TestCase):
     """
@@ -11,7 +13,8 @@ class TestUS10(unittest.TestCase):
 
     def test_marr14(self):
         u = US10()
-        p = Parser("input_files/US10/early_marriage.ged")
+        path = stabilize("us10", "early_marriage")
+        p = Parser(path)
         p.read()
         p.parse()
         with self.assertRaises(ValueError):
@@ -19,7 +22,8 @@ class TestUS10(unittest.TestCase):
 
     def test_valid(self):
         u = US10()
-        p = Parser("input_files/US10/control.ged")
+        path = stabilize("us10", "control")
+        p = Parser(path)
         p.read()
         p.parse()
         u.run()

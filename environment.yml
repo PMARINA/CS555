@@ -13,6 +13,7 @@ dependencies:
   - setuptools
   - pre-commit
   - PTable
+  - pytest-cov
   - pip:
     - pyinputplus
     - pysimplevalidate

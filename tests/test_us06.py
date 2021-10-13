@@ -2,6 +2,8 @@ import unittest
 
 from gedutil import US06, GED_Line, GED_Tag, Parser
 
+from .path_util import stabilize
+
 
 class TestUS06(unittest.TestCase):
     """
@@ -11,7 +13,8 @@ class TestUS06(unittest.TestCase):
 
     def test_deat(self):
         u = US06()
-        p = Parser("input_files/US06/deat_before_div.ged")
+        path = stabilize("us06", "deat_before_div")
+        p = Parser(path)
         p.read()
         p.parse()
         with self.assertRaises(ValueError):
@@ -19,7 +22,8 @@ class TestUS06(unittest.TestCase):
 
     def test_valid(self):
         u = US06()
-        p = Parser("input_files/US06/control.ged")
+        path = stabilize("us06", "control")
+        p = Parser(path)
         p.read()
         p.parse()
         u.run()
