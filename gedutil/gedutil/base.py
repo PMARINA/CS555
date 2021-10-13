@@ -3,6 +3,11 @@ from enum import Enum, auto
 from typing import *
 
 
+class ID(Enum):
+    IND_ID = auto()
+    FAM_ID = auto()
+
+
 class GED_Tag(Enum):
     INDI = auto()
     NAME = auto()
