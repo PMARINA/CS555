@@ -1,9 +1,9 @@
 class Check:
-    def __init__(self):
+    def __init__(self):  # pragma: no cover
         raise NotImplementedError("Must be Overridden")
 
-    def setup(self):
+    def setup(self):  # pragma: no cover
         raise NotImplementedError("Must be Overridden")
 
-    def run(self):
+    def run(self):  # pragma: no cover
         raise NotImplementedError("Must be Overridden")

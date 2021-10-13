@@ -1,5 +1,5 @@
 DEBUG_IMPORTS = False
-if DEBUG_IMPORTS:
+if DEBUG_IMPORTS:  # pragma: no cover
     print("hit GED_Parse/init")
 
 # Imports for testing (user stories)

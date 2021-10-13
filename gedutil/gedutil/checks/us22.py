@@ -12,7 +12,7 @@ class US22(Check):
     def __init__(self):
         pass
 
-    def setup(self):
+    def setup(self):  # pragma: no cover
         pass
 
     def run(self):

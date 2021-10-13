@@ -22,7 +22,7 @@ class US01(Check):
         else:
             self.tomorrow = tomorrows_date
 
-    def setup(self):
+    def setup(self):  # pragma: no cover
         pass
 
     def run(self):
