@@ -11,6 +11,7 @@ This project will involve analyzing GEDCOM files. [Wikipedia Page on GEDCOM](htt
 ## Members
 
 * Pridhvi Myneni - B.E. Computer Engineering exp Dec 2021
+* Imran Ali - M.S. Computer Science exp 2022
 
 ## Developer Guidelines
 
