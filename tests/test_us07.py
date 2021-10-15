@@ -1,19 +1,19 @@
 import unittest
 
-from gedutil import US06, GED_Line, GED_Tag, Parser
+from gedutil import US07, GED_Line, GED_Tag, Parser
 
 from path_util import stabilize
 
 
-class TestUS06(unittest.TestCase):
+class TestUS05(unittest.TestCase):
     """
-    This test checks to see that death only occurred after marriage.
+    
 
     """
 
     def test_deat(self):
-        u = US06()
-        path = stabilize("us06", "deat_before_div")
+        u = US07()
+        path = stabilize("us07", "yearsAlive")
         p = Parser(path)
         p.read()
         p.parse()
@@ -21,8 +21,8 @@ class TestUS06(unittest.TestCase):
             u.run()
 
     def test_valid(self):
-        u = US06()
-        path = stabilize("us06", "control")
+        u = US07()
+        path = stabilize("us07", "control")
         p = Parser(path)
         p.read()
         p.parse()

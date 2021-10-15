@@ -1,4 +1,3 @@
-# comment
 from datetime import timedelta
 
 from dateutil.parser import parse as parseDate
@@ -10,11 +9,11 @@ from check import Check
 from utils.get_fam_info import get_parents_from_doc
 
 
-class US05(Check):
+class US06(Check):
     def __init__(self):
         pass
 
-    def setup(self):  # pragma: no cover
+    def setup(self):  
         pass
 
     def run(self):
@@ -22,17 +21,18 @@ class US05(Check):
         # Go through the families
         for doc in families.find():
             ids_of_people = get_parents_from_doc(doc)
-            if GED_Tag.MARR.name not in doc:
+            if GED_Tag.BIRT.name not in doc:
                 continue
-            marriage_date = parseDate(doc[GED_Tag.MARR.name])
-            # latest_birth_date = marriage_date - timedelta(days=365 * 14)
+            birt_date = parseDate(doc[GED_Tag.BIRT.name])
+            
             for id in ids_of_people:
                 person = individuals.find_one({ID.IND_ID.name: id})
                 if GED_Tag.DEAT.name not in person:
                     f"This person does not have a recorded death date."
                     continue
                 deat_date = parseDate(person[GED_Tag.DEAT.name])
-                if deat_date < marriage_date:
+                yearsAlive = deat_date - birt_date
+                if yearsAlive > 150:
                     raise ValueError(
-                        f"US05 - {deat_date} occured before marriage on {marriage_date}."
+                        f"US07 - {person} was alive for more than 150 years."
                     )
