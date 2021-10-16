@@ -7,10 +7,6 @@ from gedutil.base import ID, GED_Tag
 from gedutil.mongo_client import families, individuals
 from utils.get_fam_info import get_parents_from_doc
 
-"""
-This User Story verifies that death should be less than 150 years
-"""
-
 
 class US07(Check):
     def __init__(self):
