@@ -13,11 +13,10 @@ class Birt(Hook):
         if line.tag != GED_Tag.BIRT or not last_was_valid:
             return
         if line.level != 1:
-            raise Exception(f"BIRT: level ({line.level}) was expected to be 1")
-        # individuals.find_one_and_update(
-        #     {"ged_id": Indi.last_inserted}, {"$set": {"sex": line.args}}
-        # )
-        Date.fromType = "birt"
+            raise Exception(
+                f"{GED_Tag.BIRT.name}: level ({line.level}) was expected to be 1"
+            )
+        Date.fromType = GED_Tag.BIRT.name
         Date.fromIndi = Indi.last_inserted
         Date.isIndi = True
         Date.isMarr = False

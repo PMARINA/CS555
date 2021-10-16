@@ -1,12 +1,16 @@
 # CS555 Course Project
 
+## Status
+
+[![All Tests Passing](https://github.com/PMARINA/CS555/actions/workflows/python-actions.yml/badge.svg)](https://github.com/PMARINA/CS555/actions/workflows/python-actions.yml)
+
 ## About
 
 This project will involve analyzing GEDCOM files. [Wikipedia Page on GEDCOM](https://en.wikipedia.org/wiki/GEDCOM).
 
 ## Members
 
-* Imran Ali
+* Imran Ali - M.S. Computer Science exp 2022
 * Pridhvi Myneni - B.E. Computer Engineering exp Dec 2021
 * Anjali Paliwal - B.E. Software Engineering exp May 2022
 * Manthan Patel
@@ -25,11 +29,12 @@ This project will involve analyzing GEDCOM files. [Wikipedia Page on GEDCOM](htt
     * `conda deactivate`
     * `conda env remove -n CS555`
     * `conda env create -f environment.yml`
-  * `conda activate CS555`
-    * You will need to run this every time you open a new terminal
-  * `conda develop gedutil` (after `cd`ing into the repo, at the top-level)
-* `pre-commit install` (at the top level of the repo)
-  * You will have to run this every time you clone the repo somewhere new
+    * `conda activate CS555`
+      * You will need to run this every time you open a new terminal
+    * `conda develop gedutil` (after `cd`ing into the repo, at the top-level)
+      * Re-run this every time the conda environment is (re-)created
+  * `pre-commit install` (at the top level of the repo)
+    * You will have to run this every time you clone the repo somewhere new
 
 ### Implementing a new user story
 
@@ -41,8 +46,7 @@ This project will involve analyzing GEDCOM files. [Wikipedia Page on GEDCOM](htt
 ### How to test
 
 * `conda activate CS555`
-* `cd CS555/tests`
-* `python -m unittest`
+* `pytest`
 
 ## Commit Guidelines
 

@@ -1,21 +1,35 @@
 from pymongo import MongoClient
 
+from .config import DATABASE_NAME, FAMILIES_COLLECTION_NAME, INDIVIDUALS_COLLECTION_NAME
+
 client = MongoClient()
 
-our_db = client.cs555_team11
 
-individuals = our_db.individuals
-families = our_db.families
+our_db = client.get_database(DATABASE_NAME)
+individuals = our_db.get_collection(INDIVIDUALS_COLLECTION_NAME)
+families = our_db.get_collection(FAMILIES_COLLECTION_NAME)
+
+
+def get_db(name=DATABASE_NAME):
+    global our_db
+    our_db = client.get_database(name)
+    return our_db
+
+
+def get_individuals(name=INDIVIDUALS_COLLECTION_NAME):
+    global individuals
+    individuals = get_db().get_collection(name)
+    return individuals
+
+
+def get_families(name=FAMILIES_COLLECTION_NAME):
+    global families
+    families = get_db().get_collection(name)
+    return families
 
 
 def reset_database():
-    our_db.drop_collection("individuals")
-    our_db.drop_collection("families")
-    individuals = our_db.create_collection("individuals")
-    families = our_db.create_collection("families")
-    individuals.create_index("ged_id")
-    families.create_index("fam_id")
-
-
-# if __name__ == "__main__":
-reset_database()
+    client.drop_database(DATABASE_NAME)
+    get_db()
+    get_individuals()
+    get_families()
