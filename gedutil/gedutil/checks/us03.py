@@ -43,6 +43,6 @@ class US03(Check):
 
             # > and not >= because it's possible for neonatal death to occur
             if birth_date > death_date:
-                raise Exception(
+                raise ValueError(
                     f"US03 - Birth date ({birth_date_str}) was after death date ({death_date_str})"
                 )
