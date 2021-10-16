@@ -2,7 +2,7 @@ from loguru import logger
 
 from gedutil import Parser, Tabular_Output
 
-from path_util import stabilize
+from .path_util import stabilize
 
 
 @logger.catch

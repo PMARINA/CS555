@@ -1,8 +1,8 @@
 import unittest
 
-from path_util import stabilize
-
 from gedutil import US07, GED_Line, GED_Tag, Parser
+
+from .path_util import stabilize
 
 
 class TestUS07(unittest.TestCase):

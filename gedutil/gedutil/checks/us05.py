@@ -6,8 +6,8 @@ from dateutil.parser import parse as parseDate
 from gedutil.base import ID, GED_Tag
 from gedutil.mongo_client import families, individuals
 
-from check import Check
-from utils.get_fam_info import get_parents_from_doc
+from .check import Check
+from .utils.get_fam_info import get_parents_from_doc
 
 
 class US05(Check):

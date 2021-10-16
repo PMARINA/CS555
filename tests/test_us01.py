@@ -2,7 +2,7 @@ import unittest
 
 from gedutil import US01, GED_Line, GED_Tag, Parser
 
-from path_util import stabilize
+from .path_util import stabilize
 
 TEST_FILE_PATH = stabilize("us01", "control")
 
