@@ -8,6 +8,7 @@ from .base import ID, GED_Line, GED_Tag
 from .checks.us01 import US01
 from .checks.us05 import US05
 from .checks.us06 import US06
+from .checks.us07 import US07
 from .checks.us10 import US10
 from .checks.us22 import US22
 from .parser import Parser

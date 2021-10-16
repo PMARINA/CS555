@@ -5,7 +5,7 @@ from path_util import stabilize
 from gedutil import US07, GED_Line, GED_Tag, Parser
 
 
-class TestUS05(unittest.TestCase):
+class TestUS07(unittest.TestCase):
     """
     This User Story verifies that death should be less than 150 years
     """
