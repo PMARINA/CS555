@@ -85,7 +85,7 @@ class TestUS15LessThan15Siblings(unittest.TestCase):
         child_15 = _create_individual("C15", "Jeffrey", "Jamison")
         a_family.children.append(child_15.id)
 
-        self.assertFalse(us15.less_than_15_siblings(a_family))
+        self.assertFalse(us15.run(a_family))
 
     def test_not_too_many_siblings(self):
         """
@@ -94,7 +94,7 @@ class TestUS15LessThan15Siblings(unittest.TestCase):
         """
         a_family = _create_family()
 
-        self.assertTrue(us15.less_than_15_siblings(a_family))
+        self.assertTrue(us15.run(a_family))
 
 if __name__ == '__main__':
     unittest.main()

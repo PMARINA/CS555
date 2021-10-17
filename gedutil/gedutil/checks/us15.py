@@ -12,7 +12,13 @@ import ErrorLogger
 # User Story #15: A family must have less than 15 siblings.
 # -----------------------------------------------------------------------------
 class US15:
-    def less_than_15_siblings(the_family):
+    def __init__(self):
+        pass
+
+    def setup(self):  # pragma: no cover
+        pass
+    
+    def run(the_family):
        
         result = True
 

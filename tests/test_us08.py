@@ -69,7 +69,7 @@ class Test_BirthAfterMarriage(unittest.TestCase):
         individualsDict[father.id] = father
         individualsDict[child.id]  = child
 
-        self.assertTrue(theFamily.IsBirthAfterMarriage(individualsDict,child))
+        self.assertTrue(theFamily.run(individualsDict,child))
         
     def test_BirthIsAfterMarriageNotLongEnough(self):
         mother    = CreateMother()
@@ -83,7 +83,7 @@ class Test_BirthAfterMarriage(unittest.TestCase):
         individualsDict[father.id] = father
         individualsDict[child.id]  = child
 
-        self.assertFalse(theFamily.IsBirthAfterMarriage(individualsDict,child))
+        self.assertFalse(theFamily.run(individualsDict,child))
     
     def test_BirthIsNotTooLongAfterDivorce(self):
         mother    = CreateMother()
@@ -97,7 +97,7 @@ class Test_BirthAfterMarriage(unittest.TestCase):
         individualsDict[father.id] = father
         individualsDict[child.id]  = child
        
-        self.assertFalse(theFamily.IsBirthAfterMarriage(individualsDict,child))
+        self.assertFalse(theFamily.run(individualsDict,child))
     
 if __name__ == '__main__':
     unittest.main()

@@ -13,6 +13,10 @@ import ErrorLogger
 import date_diff_calculator
 
 class Family:
+
+    def setup(self):  # pragma: no cover
+        pass
+    
     def __init__(self):
         self.type = "F"
         self.id = ""
@@ -28,13 +32,15 @@ class Family:
         ##Adding Lastname and for US16
         self.lastName = ""
         self.gender = ""
+        pass
 
     def toString(self):
         if self.marriageDate is not None:
             self.marriageDateStr = self.marriageDate.strftime('%d %b %Y')
         if self.divorcedDate is not None:
             self.divorcedDateStr = self.divorcedDate.strftime('%d %b %Y')
-    def IsBirthAfterMarriage(self,individuals,child):
+            
+    def run(self,individuals,child):
         result = True
         marriageDate = None
         divorceDate = None
