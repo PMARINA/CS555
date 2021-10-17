@@ -6,7 +6,7 @@ from .path_util import stabilize
 
 
 class TestUS07(unittest.TestCase):
-    def test_deat(self):
+    def test_yearsAlive(self):
         u = US07()
         path = stabilize("us07", "yearsAlive")
         p = Parser(path)
