@@ -6,10 +6,10 @@ Created on Fri Oct 15 17:33:35 2021
 @author: manthan
 """
 
-import unittest
 import sys
+import unittest
 
-sys.path.append('../gedutil/gedutil/checks/')
+sys.path.append("../gedutil/gedutil/checks/")
 
 import individual
 import us08
@@ -19,12 +19,14 @@ import us15
 # User Story #15: Less than 15 siblings in a family.
 # -----------------------------------------------------------------------------
 
+
 def _create_individual(ind_id, f_name, l_name):
     child = individual.Individual()
     child.id = ind_id
     child.firstAndLastName = f_name
     child.lastname = l_name
     return child
+
 
 def _create_family():
     # Generation 1 - Parents
@@ -69,11 +71,12 @@ def _create_family():
 
     return family_1
 
+
 class TestUS15LessThan15Siblings(unittest.TestCase):
     """
     Class TestUS15NoMoreThan15Siblings
     Contains methods that perform unit tests to determine if a familiy contains
-    more than 14 siblings.
+    more than 14 sibling.
     """
 
     def test_too_many_siblings(self):
@@ -96,5 +99,6 @@ class TestUS15LessThan15Siblings(unittest.TestCase):
 
         self.assertTrue(us15.run(a_family))
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()
