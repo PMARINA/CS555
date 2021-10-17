@@ -10,6 +10,7 @@ from .checks.us05 import US05
 from .checks.us06 import US06
 from .checks.us10 import US10
 from .checks.us22 import US22
+from .checks.us37 import US37
 from .parser import Parser
 from .tabular_output import Tabular_Output
 
