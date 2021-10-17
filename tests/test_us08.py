@@ -10,7 +10,7 @@ import unittest
 import datetime
 import sys
 
-sys.path.append('../gedutil/checks/')
+sys.path.append('../gedutil/gedutil/checks/')
 
 import individual
 import us08
