@@ -11,6 +11,7 @@ from .checks.us06 import US06
 from .checks.us10 import US10
 from .checks.us22 import US22
 from .checks.us25 import US25
+from .checks.us29 import US29
 from .parser import Parser
 from .tabular_output import Tabular_Output
 
