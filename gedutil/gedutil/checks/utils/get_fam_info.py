@@ -1,3 +1,5 @@
+from typing import List, Optional
+
 from gedutil.base import ID, GED_Tag
 from gedutil.mongo_client import families
 
@@ -17,6 +19,12 @@ def get_parents_from_doc(fam, combined=True):
             if key in fam:
                 res[key] = fam[key]
         return res
+
+
+def get_child_ids_from_doc(fam) -> Optional[List[str]]:
+    if GED_Tag.CHIL.name in fam:
+        return fam[GED_Tag.CHIL.name]
+    return None
 
 
 def get_parent_info(fam_id, combined=True):
