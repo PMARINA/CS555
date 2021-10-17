@@ -12,8 +12,7 @@ class TestUS07(unittest.TestCase):
         p = Parser(path)
         p.read()
         p.parse()
-        with self.assertRaises(ValueError):
-            u.run()
+        u.run()
 
     def test_valid(self):
         u = US07()
