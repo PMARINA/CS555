@@ -7,16 +7,16 @@ Created on Fri Oct 15 16:45:47 2021
 """
 
 
-import individual
+import date_diff_calculator
 import dateutil.relativedelta
 import ErrorLogger
-import date_diff_calculator
+import individual
+
 
 class Family:
-
     def setup(self):  # pragma: no cover
         pass
-    
+
     def __init__(self):
         self.type = "F"
         self.id = ""
@@ -36,11 +36,11 @@ class Family:
 
     def toString(self):
         if self.marriageDate is not None:
-            self.marriageDateStr = self.marriageDate.strftime('%d %b %Y')
+            self.marriageDateStr = self.marriageDate.strftime("%d %b %Y")
         if self.divorcedDate is not None:
-            self.divorcedDateStr = self.divorcedDate.strftime('%d %b %Y')
-            
-    def run(self,individuals,child):
+            self.divorcedDateStr = self.divorcedDate.strftime("%d %b %Y")
+
+    def run(self, individuals, child):
         result = True
         marriageDate = None
         divorceDate = None
@@ -50,25 +50,58 @@ class Family:
             mother = individuals[self.wifeId]
             marriageDate = self.marriageDate
             divorceDate = self.divorcedDate
-           
+
         # Validate the father record
         if self.husbandId is not None:
             father = individuals[self.husbandId]
-        
+
         # Validate the child record and compare dates
         if child.birthDate is not None:
             if marriageDate is not None:
-                marriageDiff = date_diff_calculator.calculateDateDifference(marriageDate, child.birthDate, "months")
+                marriageDiff = date_diff_calculator.calculateDateDifference(
+                    marriageDate, child.birthDate, "months"
+                )
                 if marriageDiff < 9:
-                    ErrorLogger.__logError__(ErrorLogger._FAMILY,"US08", self.id, str("Child " + child.id + " born on " + str(child.birthDate) + " is before marriage date of " + str(marriageDate)))
+                    ErrorLogger.__logError__(
+                        ErrorLogger._FAMILY,
+                        "US08",
+                        self.id,
+                        str(
+                            "Child "
+                            + child.id
+                            + " born on "
+                            + str(child.birthDate)
+                            + " is before marriage date of "
+                            + str(marriageDate)
+                        ),
+                    )
                     result = False
             if divorceDate is not None:
-                divorceDiff = date_diff_calculator.calculateDateDifference(divorceDate, child.birthDate, "months")
+                divorceDiff = date_diff_calculator.calculateDateDifference(
+                    divorceDate, child.birthDate, "months"
+                )
                 if divorceDiff > 9:
-                    ErrorLogger.__logError__(ErrorLogger._FAMILY,"US08", self.id, str("Child " + child.id + " born on " + str(child.birthDate) + " is more than 9 months after divorce date of " + str(divorceDate)))
+                    ErrorLogger.__logError__(
+                        ErrorLogger._FAMILY,
+                        "US08",
+                        self.id,
+                        str(
+                            "Child "
+                            + child.id
+                            + " born on "
+                            + str(child.birthDate)
+                            + " is more than 9 months after divorce date of "
+                            + str(divorceDate)
+                        ),
+                    )
                     result = False
         else:
-            ErrorLogger.__logError__(ErrorLogger._FAMILY,"US08", self.id, str("Child " + child.id + " has no birth date."))
+            ErrorLogger.__logError__(
+                ErrorLogger._FAMILY,
+                "US08",
+                self.id,
+                str("Child " + child.id + " has no birth date."),
+            )
             result = "error"
 
-        return result   
+        return result

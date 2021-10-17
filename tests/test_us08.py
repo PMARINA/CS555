@@ -6,98 +6,108 @@ Created on Fri Oct 15 16:25:49 2021
 @author: manthan
 """
 
-import unittest
 import datetime
 import sys
+import unittest
 
-sys.path.append('../gedutil/gedutil/checks/')
+sys.path.append("../gedutil/gedutil/checks/")
 
+import date_diff_calculator
 import individual
 import us08
-import date_diff_calculator
 
 # -----------------------------------------------------------------------------
-# User Story #08: Children should be born after marriage of parents 
-#                (and not more than 9 months after their divorce)
+# User Story #08: Children should be born after marriage of parents
+#                ( and not more than 9 months after their divorce )
 # -----------------------------------------------------------------------------
+
 
 def CreateFather():
-    father                    = individual.Individual()
-    father.id                 = "H1"
+    father = individual.Individual()
+    father.id = "H1"
     father.firstAndMiddleName = "John James"
-    father.lastname           = "Jamison"
-  
+    father.lastname = "Jamison"
 
     return father
 
+
 def CreateMother():
-    mother                    = individual.Individual()
-    mother.id                 = "W1"
+    mother = individual.Individual()
+    mother.id = "W1"
     mother.firstAndMiddleNAme = "Jane Janet"
-    mother.lastname           = "Jamison"
+    mother.lastname = "Jamison"
     return mother
 
-def CreateChild(id,birthDate,first):
-    child                    = individual.Individual()
-    child.id                 = id
+
+def CreateChild(id, birthDate, first):
+    child = individual.Individual()
+    child.id = id
     child.firstAndMiddleNAme = first
-    child.lastname           = "Jamison"
-    child.birthDate          = birthDate
+    child.lastname = "Jamison"
+    child.birthDate = birthDate
 
     return child
 
-def CreateFamily(mother,father, marriageDate, divorceDate):
-    theFamily                  = us08.Family()
-    theFamily.id               = "F1"
-    theFamily.husbandId        = father.id
-    theFamily.wifeId           = mother.id
-    theFamily.marriageDate     = marriageDate
-    theFamily.divorcedDate     = divorceDate
+
+def CreateFamily(mother, father, marriageDate, divorceDate):
+    theFamily = us08.Family()
+    theFamily.id = "F1"
+    theFamily.husbandId = father.id
+    theFamily.wifeId = mother.id
+    theFamily.marriageDate = marriageDate
+    theFamily.divorcedDate = divorceDate
     return theFamily
 
+
 class Test_BirthAfterMarriage(unittest.TestCase):
-
     def test_BirthIsAfterMarriage(self):
-        mother    = CreateMother()
-        father    = CreateFather()
-        child     = CreateChild("C1",datetime.date(2000,11,1),"Jimmy John")
-        theFamily = CreateFamily(mother,father, datetime.date(2000,1,30), datetime.date(2017,9,30))
+        mother = CreateMother()
+        father = CreateFather()
+        child = CreateChild("C1", datetime.date(2000, 11, 1), "Jimmy John")
+        theFamily = CreateFamily(
+            mother, father, datetime.date(2000, 1, 30), datetime.date(2017, 9, 30)
+        )
         theFamily.children.append(child)
 
-        individualsDict             = {}
+        individualsDict = {}
         individualsDict[mother.id] = mother
         individualsDict[father.id] = father
-        individualsDict[child.id]  = child
+        individualsDict[child.id] = child
 
-        self.assertTrue(theFamily.run(individualsDict,child))
-        
+        self.assertTrue(theFamily.run(individualsDict, child))
+
     def test_BirthIsAfterMarriageNotLongEnough(self):
-        mother    = CreateMother()
-        father    = CreateFather()
-        child     = CreateChild("C1",datetime.date(2000,11,1),"Jimmy John")
-        theFamily = CreateFamily(mother,father, datetime.date(2001,1,30), datetime.date(2017,9,30))
+        mother = CreateMother()
+        father = CreateFather()
+        child = CreateChild("C1", datetime.date(2000, 11, 1), "Jimmy John")
+        theFamily = CreateFamily(
+            mother, father, datetime.date(2001, 1, 30), datetime.date(2017, 9, 30)
+        )
         theFamily.children.append(child)
 
-        individualsDict             = {}
+        individualsDict = {}
         individualsDict[mother.id] = mother
         individualsDict[father.id] = father
-        individualsDict[child.id]  = child
+        individualsDict[child.id] = child
 
-        self.assertFalse(theFamily.run(individualsDict,child))
-    
+        self.assertFalse(theFamily.run(individualsDict, child))
+
     def test_BirthIsNotTooLongAfterDivorce(self):
-        mother    = CreateMother()
-        father    = CreateFather()
-        child     = CreateChild("C1",datetime.date(2017,11,1),"Jimmy John")
-        theFamily = CreateFamily(mother,father, datetime.date(2000,1,30), datetime.date(2016,9,1))
+        mother = CreateMother()
+        father = CreateFather()
+        child = CreateChild("C1", datetime.date(2017, 11, 1), "Jimmy John")
+        theFamily = CreateFamily(
+            mother, father, datetime.date(2000, 1, 30), datetime.date(2016, 9, 1)
+        )
         theFamily.children.append(child)
 
-        individualsDict             = {}
+        individualsDict = {}
         individualsDict[mother.id] = mother
         individualsDict[father.id] = father
-        individualsDict[child.id]  = child
-       
-        self.assertFalse(theFamily.run(individualsDict,child))
-    
-if __name__ == '__main__':
+        individualsDict[child.id] = child
+
+        self.assertFalse(theFamily.run(individualsDict, child))
+
+
+if __name__ == "__main__":
     unittest.main()
