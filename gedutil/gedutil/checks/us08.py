@@ -6,11 +6,11 @@ Created on Fri Oct 15 16:45:47 2021
 @author: manthan
 """
 
+import datetime
 
-import date_diff_calculator
 import dateutil.relativedelta
 import ErrorLogger
-import individual
+from dateutil import relativedelta
 
 
 class Family:
@@ -33,6 +33,35 @@ class Family:
         self.lastName = ""
         self.gender = ""
         pass
+
+    # calculates the delta between two dates in requested units years, days, months, hours with the units as a string otherwise it will just return the datedelta object
+    def calculateDateDifference(calcStartDate, calcEndDate, requestedDateUnit):
+        startDate = calcStartDate
+        endDate = calcEndDate
+        if startDate is None:
+            startDate = datetime.datetime.now()
+        if endDate is None:
+            endDate = datetime.datetime.now()
+        dateDelta = relativedelta.relativedelta(endDate, startDate)
+
+        if requestedDateUnit is "years":
+            return dateDelta.years
+
+        elif requestedDateUnit is "days":
+            return dateDelta.days
+
+        elif requestedDateUnit is "months":
+            deltaMonths = dateDelta.years * 12 + dateDelta.months
+            return deltaMonths
+
+        elif requestedDateUnit is "hours":
+            return dateDelta.hours
+
+        else:
+            return dateDelta
+
+    def isSecondNumberBigger(firstNumber, secondNumber):
+        return secondNumber > firstNumber
 
     def toString(self):
         if self.marriageDate is not None:
@@ -58,7 +87,7 @@ class Family:
         # Validate the child record and compare dates
         if child.birthDate is not None:
             if marriageDate is not None:
-                marriageDiff = date_diff_calculator.calculateDateDifference(
+                marriageDiff = Family.calculateDateDifference(
                     marriageDate, child.birthDate, "months"
                 )
                 if marriageDiff < 9:
@@ -77,7 +106,7 @@ class Family:
                     )
                     result = False
             if divorceDate is not None:
-                divorceDiff = date_diff_calculator.calculateDateDifference(
+                divorceDiff = Family.calculateDateDifferencecalculateDateDifference(
                     divorceDate, child.birthDate, "months"
                 )
                 if divorceDiff > 9:

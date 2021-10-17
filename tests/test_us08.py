@@ -10,7 +10,7 @@ import datetime
 import sys
 import unittest
 
-sys.path.append("../gedutil/gedutil/checks/")
+sys.path.append("./gedutil/gedutil/checks/")
 
 import date_diff_calculator
 import individual
