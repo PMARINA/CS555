@@ -75,7 +75,7 @@ def _create_family():
 class TestUS15LessThan15Siblings(unittest.TestCase):
     """
     Class TestUS15NoMoreThan15Siblings
-    Contains methods that perform unit tests to determine if a familiy contains
+    Contains methods that perform unit tests to determine if a familiy contain
     more than 14 sibling.
     """
 
