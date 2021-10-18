@@ -13,7 +13,7 @@ sys.path.append("../gedutil/gedutil/checks/")
 
 import individual
 import us08
-import us15
+from us15 import US15
 
 # -----------------------------------------------------------------------------
 # User Story #15: Less than 15 siblings in a family.
@@ -88,7 +88,7 @@ class TestUS15LessThan15Siblings(unittest.TestCase):
         child_15 = _create_individual("C15", "Jeffrey", "Jamison")
         a_family.children.append(child_15.id)
 
-        self.assertFalse(us15.run(a_family))
+        self.assertFalse(US15.run(a_family))
 
     def test_not_too_many_siblings(self):
         """
@@ -97,7 +97,7 @@ class TestUS15LessThan15Siblings(unittest.TestCase):
         """
         a_family = _create_family()
 
-        self.assertTrue(us15.run(a_family))
+        self.assertTrue(US15.run(a_family))
 
 
 if __name__ == "__main__":

@@ -141,8 +141,8 @@ class Family:
                     marriageDate, child.birthDate, "months"
                 )
                 if marriageDiff < 9:
-                    ErrorLogger.__logError__(
-                        ErrorLogger._FAMILY,
+                    Family.__logError__(
+                        Family._FAMILY,
                         "US08",
                         self.id,
                         str(
@@ -156,12 +156,12 @@ class Family:
                     )
                     result = False
             if divorceDate is not None:
-                divorceDiff = Family.calculateDateDifferencecalculateDateDifference(
+                divorceDiff = Family.calculateDateDifferenc(
                     divorceDate, child.birthDate, "months"
                 )
                 if divorceDiff > 9:
-                    ErrorLogger.__logError__(
-                        ErrorLogger._FAMILY,
+                    Family.__logError__(
+                        Family._FAMILY,
                         "US08",
                         self.id,
                         str(
@@ -175,8 +175,8 @@ class Family:
                     )
                     result = False
         else:
-            ErrorLogger.__logError__(
-                ErrorLogger._FAMILY,
+            Family.__logError__(
+                Family._FAMILY,
                 "US08",
                 self.id,
                 str("Child " + child.id + " has no birth date."),
