@@ -26,7 +26,7 @@ def get_birthdate(id: str) -> Optional[datetime]:
     return parseDate(raw_result)
 
 
-def get_age(id: str, date: Optional[datetime]) -> Optional[timedelta]:
+def get_age(id: str, date: Optional[datetime] = None) -> Optional[timedelta]:
     if not date:
         date = datetime.now()
     doc = individuals.find_one(
