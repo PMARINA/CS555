@@ -11,6 +11,7 @@ from .checks.us05 import US05
 from .checks.us06 import US06
 from .checks.us08 import Family
 from .checks.us10 import US10
+from .checks.us12 import US12
 from .checks.us15 import US15
 from .checks.us16 import US16
 from .checks.us20 import US20
