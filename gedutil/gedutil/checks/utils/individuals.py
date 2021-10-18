@@ -1,10 +1,13 @@
 from datetime import datetime, timedelta
 from typing import Optional
 
+import regex as re
 from dateutil.parser import parse as parseDate
 
 from gedutil.base import ID, GED_Tag
 from gedutil.mongo_client import individuals
+
+LAST_NAME_REGEX = re.compile("^.*?\\/(.*?)\\/.*?$")
 
 
 def get_birthdate_raw(id: str):
@@ -52,3 +55,25 @@ def isFemale(id: str) -> Optional[bool]:
     if maleResult != None:
         return not maleResult
     return maleResult  # None
+
+
+def get_name(id: str) -> Optional[str]:
+    doc = individuals.find_one({ID.IND_ID.name: id}, {GED_Tag.NAME.name: 1})
+    if GED_Tag.NAME.name in doc:
+        return doc[GED_Tag.NAME.name]
+    return None
+
+
+def get_last_name_from_db(id: str) -> Optional[str]:
+    name = get_name(id)
+    if name is None:
+        return None
+    return get_last_name(name)
+
+
+def get_last_name(name: str) -> Optional[str]:
+    result = LAST_NAME_REGEX.match(name)
+    if result is None:
+        return None
+    else:
+        return result.group(1)
