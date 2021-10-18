@@ -156,7 +156,7 @@ class Family:
                     )
                     result = False
             if divorceDate is not None:
-                divorceDiff = Family.calculateDateDifferenc(
+                divorceDiff = Family.calculateDateDifference(
                     divorceDate, child.birthDate, "months"
                 )
                 if divorceDiff > 9:
