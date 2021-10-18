@@ -12,6 +12,7 @@ from .checks.us08 import Family
 from .checks.us10 import US10
 from .checks.us15 import US15
 from .checks.us22 import US22
+from .checks.us37 import US37
 from .parser import Parser
 from .tabular_output import Tabular_Output
 
