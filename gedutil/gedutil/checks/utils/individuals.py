@@ -9,7 +9,6 @@ from gedutil.mongo_client import individuals
 
 LAST_NAME_REGEX = re.compile("^.*?\\/(.*?)\\/.*?$")
 
-
 def get_birthdate_raw(id: str):
     doc = individuals.find_one(
         {ID.IND_ID.name: id}, {GED_Tag.DEAT.name: 1, GED_Tag.BIRT.name: 1}
@@ -26,7 +25,7 @@ def get_birthdate(id: str) -> Optional[datetime]:
     return parseDate(raw_result)
 
 
-def get_age(id: str, date: Optional[datetime]) -> Optional[timedelta]:
+def get_age(id: str, date: Optional[datetime] = None) -> Optional[timedelta]:
     if not date:
         date = datetime.now()
     doc = individuals.find_one(
