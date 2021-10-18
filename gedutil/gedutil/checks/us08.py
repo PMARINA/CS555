@@ -5,11 +5,12 @@ Created on Fri Oct 15 16:45:47 2021
 
 @author: manthan
 """
-
 import datetime
+import logging
+import logging.config
+from logging import FileHandler
 
 import dateutil.relativedelta
-import ErrorLogger
 from dateutil import relativedelta
 
 
@@ -34,7 +35,56 @@ class Family:
         self.gender = ""
         pass
 
-    # calculates the delta between two dates in requested units years, days, months, hours with the units as a string otherwise it will just return the datedelta object
+    logger = logging.getLogger("gedcomLogger")
+    fileHandler = logging.FileHandler("gedcomError.log", "w")
+
+    _logMessages = [""]
+    _ANOMALY = "ANOMALY"
+    _ERROR = "ERROR"
+    _INDIVIDUAL = "INDIVIDUAL"
+    _FAMILY = "FAMILY"
+    _GENERAL = "GENERAL"
+
+    def __initLogger__(default=""):
+        Family.logger.addHandler(Family.fileHandler)
+        Family.logger.setLevel(logging.DEBUG)
+
+    def __logAnomaly__(recordType, userStory, id, messsage):
+        msg = (
+            Family._ANOMALY
+            + ": "
+            + recordType
+            + ": "
+            + userStory
+            + ": "
+            + str(id)
+            + ": "
+            + messsage
+        )
+        Family.logger.info(msg)
+        Family._logMessages.append(msg)
+
+    def __logError__(recordType, userStory, id, messsage):
+        msg = (
+            Family._ERROR
+            + ": "
+            + recordType
+            + ": "
+            + userStory
+            + ": "
+            + str(id)
+            + ": "
+            + messsage
+        )
+        Family.logger.error(msg)
+        Family._logMessages.append(msg)
+
+    def __printLogMessages__(default=""):
+        for message in Family._logMessages:
+            print(message)
+
+        # calculates the delta between two dates in requested units years, days, months, hours with the units as a string otherwise it will just return the datedelta object
+
     def calculateDateDifference(calcStartDate, calcEndDate, requestedDateUnit):
         startDate = calcStartDate
         endDate = calcEndDate
