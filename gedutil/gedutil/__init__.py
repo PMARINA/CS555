@@ -6,6 +6,7 @@ if DEBUG_IMPORTS:  # pragma: no cover
 
 from .base import ID, GED_Line, GED_Tag
 from .checks.us01 import US01
+from .checks.us03 import US03
 from .checks.us05 import US05
 from .checks.us06 import US06
 from .checks.us08 import Family
