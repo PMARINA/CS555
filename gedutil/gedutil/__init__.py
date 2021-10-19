@@ -4,7 +4,8 @@ if DEBUG_IMPORTS:  # pragma: no cover
 
 # Imports for testing (user stories)
 
-from .base import ID, GED_Line, GED_Tag
+from .all_checks import run_all as run_all_checks
+from .base import ID, Error_Type, GED_Line, GED_Tag, User_Story
 from .checks.us01 import US01
 from .checks.us03 import US03
 from .checks.us05 import US05
@@ -20,8 +21,8 @@ from .checks.us25 import US25
 from .checks.us29 import US29
 from .checks.us33 import US33
 from .checks.us37 import US37
+
+# Important collection imports for testing use only (shouldn't be used by clients)
+from .mongo_client import errors, families, individuals
 from .parser import Parser
 from .tabular_output import Tabular_Output
-
-# Important base imports for general use
-# from .mongo_client import families, individuals

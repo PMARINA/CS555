@@ -1,6 +1,7 @@
 import unittest
 
-from gedutil import US01, GED_Line, GED_Tag, Parser
+from gedutil import US01, GED_Line, GED_Tag, Parser, errors
+from gedutil.base import Error_Type, User_Story
 
 from .path_util import stabilize
 
@@ -26,8 +27,14 @@ class TestUS01(unittest.TestCase):
                 p.parsed_lines[i + 1] = GED_Line(orig.level, orig.tag, args=newDate)
                 break
         p.parse()
-        with self.assertRaises(ValueError):
-            u.run()
+        u.run()
+        for doc in errors.find():
+
+            # No other errors should be raised
+            assert doc["user story"] == User_Story.US01.name
+            # They should only be errors
+            assert doc["error type"] == Error_Type.ERROR.name
+            assert "future" in doc["message"].lower()
 
     def test_death(self):
         u = US01()
@@ -40,8 +47,14 @@ class TestUS01(unittest.TestCase):
                 p.parsed_lines[i + 1] = GED_Line(orig.level, orig.tag, args=newDate)
                 break
         p.parse()
-        with self.assertRaises(ValueError):
-            u.run()
+        u.run()
+        for doc in errors.find():
+
+            # No other errors should be raised
+            assert doc["user story"] == User_Story.US01.name
+            # They should only be errors
+            assert doc["error type"] == Error_Type.ERROR.name
+            assert "future" in doc["message"].lower()
 
     def test_divorce(self):
         u = US01()
@@ -56,8 +69,14 @@ class TestUS01(unittest.TestCase):
                 p.parsed_lines[i + 1] = GED_Line(orig.level, orig.tag, args=newDate)
                 break
         p.parse()
-        with self.assertRaises(ValueError):
-            u.run()
+        u.run()
+        for doc in errors.find():
+
+            # No other errors should be raised
+            assert doc["user story"] == User_Story.US01.name
+            # They should only be errors
+            assert doc["error type"] == Error_Type.ERROR.name
+            assert "future" in doc["message"].lower()
 
     def test_marriage(self):
         u = US01()
@@ -70,8 +89,14 @@ class TestUS01(unittest.TestCase):
                 p.parsed_lines[i + 1] = GED_Line(orig.level, orig.tag, args=newDate)
                 break
         p.parse()
-        with self.assertRaises(ValueError):
-            u.run()
+        u.run()
+        for doc in errors.find():
+
+            # No other errors should be raised
+            assert doc["user story"] == User_Story.US01.name
+            # They should only be errors
+            assert doc["error type"] == Error_Type.ERROR.name
+            assert "future" in doc["message"].lower()
 
     def test_birth_nonsensical_date(self):
         u = US01()
@@ -84,5 +109,11 @@ class TestUS01(unittest.TestCase):
                 p.parsed_lines[i + 1] = GED_Line(orig.level, orig.tag, args=newDate)
                 break
         p.parse()
-        with self.assertRaises(ValueError):
-            u.run()
+        u.run()
+        for doc in errors.find():
+
+            # No other errors should be raised
+            assert doc["user story"] == User_Story.US01.name
+            # They should only be errors
+            assert doc["error type"] == Error_Type.ERROR.name
+            assert "format" in doc["message"].lower()
