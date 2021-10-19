@@ -3,8 +3,8 @@ from datetime import timedelta
 
 from dateutil.parser import parse as parseDate
 
-from gedutil.base import ID, GED_Tag
-from gedutil.mongo_client import families, individuals
+from gedutil.base import ID, Error_Type, GED_Tag, User_Story
+from gedutil.mongo_client import errors, families, individuals
 
 from .check import Check
 from .utils.get_fam_info import get_child_ids_from_doc, get_parents_from_doc
@@ -36,6 +36,10 @@ class US16(Check):
                 if isMale(personId):
                     person_last_name = get_last_name_from_db(personId)
                     if person_last_name not in acceptable_last_names:
-                        raise ValueError(
-                            f"US16 - Expected child ({get_name(personId)}) of family: {doc[ID.FAM_ID.name]}: to carry the family name ({acceptable_last_names})"
+                        errors.insert_one(
+                            {
+                                "user story": User_Story.US16.name,
+                                "error type": Error_Type.ANOMALY.name,
+                                "message": f"Expected child ({get_name(personId)}) of family: {doc[ID.FAM_ID.name]}: to carry a family name of ({acceptable_last_names})",
+                            }
                         )
