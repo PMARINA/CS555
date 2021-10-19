@@ -1,6 +1,6 @@
 import unittest
 
-from gedutil import US37, GED_Line, GED_Tag, Parser
+from gedutil import US37, Error_Type, GED_Line, GED_Tag, Parser, User_Story, errors
 
 from .path_util import stabilize
 
@@ -23,11 +23,11 @@ class TestUS37(unittest.TestCase):
         p = Parser(path)
         p.read()
         p.parse()
-        res = u.run()
-        assert len(res) == 1
-        key = [k for k in res.keys()][0]
-        assert len(res[key]["children"]) == 2
-        assert len(res[key]["spouses"]) == 1
+        u.run()
+        results = 0
+        for e in errors.find():
+            results += 1
+        assert results == 1
 
     def test_valid(self):
         u = US37()
@@ -35,5 +35,6 @@ class TestUS37(unittest.TestCase):
         p = Parser(path)
         p.read()
         p.parse()
-        res = u.run()
-        assert len(res) == 0
+        u.run()
+        for doc in errors.find():
+            raise Exception("No errors should have been raised")
