@@ -4,8 +4,8 @@ from dateutil import parser as dateParse
 from dateutil.relativedelta import relativedelta as rd
 from prettytable import PrettyTable
 
-from .base import ID, GED_Tag
-from .mongo_client import families, individuals
+from .base import ID, Error_Type, GED_Tag
+from .mongo_client import errors, families, individuals
 
 
 class Tabular_Output:
@@ -116,4 +116,24 @@ class Tabular_Output:
         for row in rows:
             p.add_row(row)
 
+        print(p)
+
+    def print_outputs(self):
+        if errors.count_documents({}) <= 0:
+            return
+        rows = []
+        p = PrettyTable()
+        p.title = "Outputs"
+        p.field_names = ["User Story", "Type", "Message"]
+        for doc in errors.find():
+            row = []
+            row.append(doc["user story"])
+            row.append(doc["error type"])
+            row.append(str(doc["message"]))
+            rows.append(row)
+        rows = sorted(rows, key=lambda l: l[0] + l[1])
+        for row in rows:
+            if len(row) != 3:
+                print(row)
+            p.add_row(row)
         print(p)
