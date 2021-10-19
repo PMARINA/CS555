@@ -2,8 +2,8 @@ from datetime import timedelta
 
 from dateutil.parser import parse as parseDate
 
-from gedutil.base import ID, GED_Tag
-from gedutil.mongo_client import families, individuals
+from gedutil.base import ID, Error_Type, GED_Tag, User_Story
+from gedutil.mongo_client import errors, families, individuals
 
 from .check import Check
 from .utils.get_fam_info import get_child_ids_from_doc, get_parents_from_doc
@@ -36,8 +36,15 @@ class US33(Check):
                     child_ids = get_child_ids_from_doc(doc)
                     for id in child_ids:
                         if get_age(id).days / 365.25 < 18:
-                            if fam_id in orphans_by_id:
-                                orphans_by_id[fam_id].append(id)
-                            else:
-                                orphans_by_id[fam_id] = [id]
+                            errors.insert_one(
+                                {
+                                    "user story": User_Story.US33.name,
+                                    "error type": Error_Type.RESULT.name,
+                                    "message": f"Child with id ({id}) is an orphan of family ({fam_id})",
+                                }
+                            )
+                            # if fam_id in orphans_by_id:
+                            #     orphans_by_id[fam_id].append(id)
+                            # else:
+                            #     orphans_by_id[fam_id] = [id]
         return orphans_by_id
