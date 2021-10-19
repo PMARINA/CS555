@@ -31,6 +31,7 @@ class GED_Tag(Enum):
 class Error_Type(Enum):
     ANOMALY = auto()
     ERROR = auto()
+    RESULT = auto()
 
 
 class User_Story(Enum):
