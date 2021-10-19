@@ -17,7 +17,6 @@ class US29(Check):
         pass
 
     def run(self):
-        dead_people = []
         for doc in individuals.find(
             {GED_Tag.DEAT.name: {"$exists": 1}},
             {GED_Tag.DEAT.name: 1, GED_Tag.NAME.name: 1, ID.IND_ID.name: 1},
@@ -26,6 +25,6 @@ class US29(Check):
                 {
                     "user story": User_Story.US29.name,
                     "error type": Error_Type.RESULT.name,
-                    "message": doc,
+                    "message": f"{doc[GED_Tag.NAME.name]} ({doc[ID.IND_ID.name]}) has passed away",
                 }
             )
