@@ -19,10 +19,13 @@ class TestUS03(unittest.TestCase):
         p.read()
         p.parse()
         u.run()
+        num_raised = 0
         for doc in errors.find():
             assert doc["user story"] == User_Story.US03.name
             assert doc["error type"] == Error_Type.ERROR.name
             assert "after death date" in doc["message"].lower()
+            num_raised += 1
+        assert num_raised == 1
 
     def test_valid(self):
         u = US03()
