@@ -3,11 +3,13 @@ from datetime import timedelta
 
 from dateutil.parser import parse as parseDate
 
-from gedutil.base import ID, GED_Tag
-from gedutil.mongo_client import families, individuals
+from gedutil.base import ID, Error_Type, GED_Tag, User_Story
+from gedutil.mongo_client import errors, families, individuals
 
 from .check import Check
 from .utils.get_fam_info import get_parents_from_doc
+
+THIS_USER_STORY = User_Story.US05.name
 
 
 class US05(Check):
@@ -33,6 +35,10 @@ class US05(Check):
                     continue
                 deat_date = parseDate(person[GED_Tag.DEAT.name])
                 if deat_date < marriage_date:
-                    raise ValueError(
-                        f"US05 - {deat_date} occured before marriage on {marriage_date}."
+                    errors.insert_one(
+                        {
+                            "user story": THIS_USER_STORY,
+                            "error type": Error_Type.ERROR.name,
+                            "message": f"Death date ({deat_date}) occured before marriage on {marriage_date}.",
+                        }
                     )

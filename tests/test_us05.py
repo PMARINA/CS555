@@ -1,6 +1,6 @@
 import unittest
 
-from gedutil import US05, GED_Line, GED_Tag, Parser
+from gedutil import US05, Error_Type, GED_Line, GED_Tag, Parser, User_Story, errors
 
 from .path_util import stabilize
 
@@ -17,8 +17,14 @@ class TestUS05(unittest.TestCase):
         p = Parser(path)
         p.read()
         p.parse()
-        with self.assertRaises(ValueError):
-            u.run()
+        u.run()
+        num_raised = 0
+        for doc in errors.find():
+            assert doc["user story"] == User_Story.US05.name
+            assert doc["error type"] == Error_Type.ERROR.name
+            assert "before marriage" in doc["message"].lower()
+            num_raised += 1
+        assert num_raised == 1
 
     def test_valid(self):
         u = US05()
@@ -27,3 +33,5 @@ class TestUS05(unittest.TestCase):
         p.read()
         p.parse()
         u.run()
+        for doc in errors.find():
+            raise Exception("This test case should not have raised errors")
