@@ -1,6 +1,6 @@
 import unittest
 
-from gedutil import US22, GED_Line, GED_Tag, Parser
+from gedutil import US22, Error_Type, GED_Line, GED_Tag, Parser, User_Story, errors
 
 from .path_util import stabilize
 
@@ -17,8 +17,14 @@ class TestUS22(unittest.TestCase):
         p = Parser(path)
         p.read()
         p.parse()
-        with self.assertRaises(ValueError):
-            u.run()
+        num_raised = 0
+        u.run()
+        for doc in errors.find():
+            assert doc["user story"] == User_Story.US22.name
+            assert doc["error type"] == Error_Type.ERROR.name
+            assert "non unique" in doc["message"].lower()
+            num_raised += 1
+        assert num_raised == 1
 
     def test_nonunique_id(self):
         u = US22()
@@ -26,8 +32,14 @@ class TestUS22(unittest.TestCase):
         p = Parser(path)
         p.read()
         p.parse()
-        with self.assertRaises(ValueError):
-            u.run()
+        num_raised = 0
+        u.run()
+        for doc in errors.find():
+            assert doc["user story"] == User_Story.US22.name
+            assert doc["error type"] == Error_Type.ERROR.name
+            assert "non unique" in doc["message"].lower()
+            num_raised += 1
+        assert num_raised == 1
 
     def test_valid(self):
         u = US22()
@@ -36,3 +48,5 @@ class TestUS22(unittest.TestCase):
         p.read()
         p.parse()
         u.run()
+        for doc in errors.find():
+            raise Exception("Shouldn't have errored")
