@@ -1,6 +1,11 @@
 from pymongo import MongoClient
 
-from .config import DATABASE_NAME, FAMILIES_COLLECTION_NAME, INDIVIDUALS_COLLECTION_NAME
+from .config import (
+    DATABASE_NAME,
+    ERROR_COLLECTION_NAME,
+    FAMILIES_COLLECTION_NAME,
+    INDIVIDUALS_COLLECTION_NAME,
+)
 
 client = MongoClient()
 
@@ -8,6 +13,7 @@ client = MongoClient()
 our_db = client.get_database(DATABASE_NAME)
 individuals = our_db.get_collection(INDIVIDUALS_COLLECTION_NAME)
 families = our_db.get_collection(FAMILIES_COLLECTION_NAME)
+errors = our_db.get_collection(ERROR_COLLECTION_NAME)
 
 
 def get_db(name=DATABASE_NAME):
@@ -28,8 +34,15 @@ def get_families(name=FAMILIES_COLLECTION_NAME):
     return families
 
 
+def get_errors(name=ERROR_COLLECTION_NAME):
+    global errors
+    errors = get_db().get_collection(name)
+    return errors
+
+
 def reset_database():
     client.drop_database(DATABASE_NAME)
     get_db()
     get_individuals()
     get_families()
+    get_errors()

@@ -3,10 +3,12 @@ from datetime import timedelta
 
 from dateutil.parser import parse as parseDate
 
-from gedutil.base import ID, GED_Tag
-from gedutil.mongo_client import individuals
+from gedutil.base import ID, Error_Type, GED_Tag, User_Story
+from gedutil.mongo_client import errors, individuals
 
 from .check import Check
+
+THIS_USER_STORY = User_Story.US03.name
 
 
 class US03(Check):
@@ -43,6 +45,10 @@ class US03(Check):
 
             # > and not >= because it's possible for neonatal death to occur
             if birth_date > death_date:
-                raise ValueError(
-                    f"US03 - Birth date ({birth_date_str}) was after death date ({death_date_str})"
+                errors.insert_one(
+                    {
+                        "user story": THIS_USER_STORY,
+                        "error type": Error_Type.ERROR.name,
+                        "message": f"Birth date ({birth_date_str}) was after death date ({death_date_str})",
+                    }
                 )

@@ -1,6 +1,6 @@
 import unittest
 
-from gedutil import US25, GED_Line, GED_Tag, Parser
+from gedutil import US25, Error_Type, GED_Line, GED_Tag, Parser, User_Story, errors
 
 from .path_util import stabilize
 
@@ -19,8 +19,14 @@ class TestUS25(unittest.TestCase):
         p = Parser(path)
         p.read()
         p.parse()
-        with self.assertRaises(ValueError):
-            u.run()
+        num_raised = 0
+        u.run()
+        for doc in errors.find():
+            assert doc["user story"] == User_Story.US25.name
+            assert doc["error type"] == Error_Type.ANOMALY.name
+            assert "Duplicate child" in doc["message"]
+            num_raised += 1
+        assert num_raised == 1
 
     def test_valid(self):
         u = US25()
@@ -29,3 +35,5 @@ class TestUS25(unittest.TestCase):
         p.read()
         p.parse()
         u.run()
+        for doc in errors.find():
+            raise Exception("No errors should've been found")

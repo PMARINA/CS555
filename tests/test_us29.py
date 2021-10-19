@@ -1,6 +1,6 @@
 import unittest
 
-from gedutil import US29, GED_Line, GED_Tag, Parser
+from gedutil import US29, Error_Type, GED_Line, GED_Tag, Parser, User_Story, errors
 
 from .path_util import stabilize
 
@@ -19,5 +19,8 @@ class TestUS29(unittest.TestCase):
         p = Parser(path)
         p.read()
         p.parse()
-        output = u.run()
-        assert len(output) == 1
+        u.run()
+        num_found = 0
+        for doc in errors.find():
+            num_found += 1
+        assert num_found == 1

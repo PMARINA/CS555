@@ -4,8 +4,8 @@ from typing import List
 
 from dateutil.parser import parse as parseDate
 
-from gedutil.base import ID, GED_Tag
-from gedutil.mongo_client import families, individuals
+from gedutil.base import ID, Error_Type, GED_Tag, User_Story
+from gedutil.mongo_client import errors, families, individuals
 
 from .check import Check
 from .utils.get_fam_info import get_child_ids_from_doc, get_parents_from_doc
@@ -45,6 +45,8 @@ class US20(Check):
 
         for family in families_output:
             children = family.children
+            if not children:
+                continue  # There are no grandchildren to evaluate
             all_grandchildren = []
             for c_id in children:
                 s = get_grandchildren(c_id, families_output)
@@ -53,6 +55,10 @@ class US20(Check):
             for c in children:
                 for g in all_grandchildren:
                     if (g, c) in spouses or (c, g) in spouses:
-                        raise ValueError(
-                            "US20 - An uncle/parent/aunt was in a family with a child of the next generation"
+                        errors.insert_one(
+                            {
+                                "user story": User_Story.US20.name,
+                                "error type": Error_Type.ANOMALY.name,
+                                "message": f"An uncle/parent/aunt ({c}) was in a family with a child of the next generation ({g})",
+                            }
                         )

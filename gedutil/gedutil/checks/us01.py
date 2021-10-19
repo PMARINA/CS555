@@ -3,10 +3,12 @@ from threading import current_thread
 
 from dateutil.parser import parse as parseDate
 
-from gedutil.base import GED_Tag
-from gedutil.mongo_client import families, individuals
+from gedutil.base import Error_Type, GED_Tag, User_Story
+from gedutil.mongo_client import errors, families, individuals
 
 from .check import Check
+
+THIS_USER_STORY = User_Story.US01.name
 
 
 class US01(Check):
@@ -35,9 +37,22 @@ class US01(Check):
         try:
             given = parseDate(s)
         except Exception as e:
-            raise ValueError(f"US01 - {datetype} - invalid format - {s}")
+            errors.insert_one(
+                {
+                    "user story": THIS_USER_STORY,
+                    "error type": Error_Type.ERROR.name,
+                    "message": f"{datetype} - invalid format - {s}",
+                }
+            )
+            return
         if given >= self.tomorrow:
-            raise ValueError(f"US01 - {datetype} in future: {s}")
+            errors.insert_one(
+                {
+                    "user story": THIS_USER_STORY,
+                    "error type": Error_Type.ERROR.name,
+                    "message": f"{datetype} in future: {s}",
+                }
+            )
 
     def checkField(self, database, field_name):
         for doc in database.find():

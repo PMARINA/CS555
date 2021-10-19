@@ -1,4 +1,5 @@
-from gedutil.mongo_client import families, individuals
+from gedutil.base import Error_Type, User_Story
+from gedutil.mongo_client import errors, families, individuals
 
 from .check import Check
 from .utils.get_fam_info import get_child_ids_from_doc, get_parents_from_doc
@@ -39,13 +40,18 @@ class US12(Check):
                     parent_bd = parent_birth_dates[parent_id]
                     age_timedelta = get_age(parent_id, child_bd)
                     age_years = age_timedelta.days / 365.25
+                    err_msg = None
                     if isMale(parent_id):
                         if age_years > self.MAX_M_AFAB_AGE:
-                            raise ValueError(
-                                f"Male AFAB parent ({parent_id}) was more than {self.MAX_M_AFAB_AGE} years older ({age_years} years) than child at birth ({child_id})"
-                            )
+                            err_msg = f"AMAB parent ({parent_id}) was more than {self.MAX_M_AFAB_AGE} years older ({age_years} years) than child at birth ({child_id})"
                     if isFemale(parent_id):
                         if age_years > self.MAX_F_AFAB_AGE:
-                            raise ValueError(
-                                f"Female AFAB parent ({parent_id}) was more than {self.MAX_F_AFAB_AGE} years older ({age_years} years) than child at birth ({child_id})"
-                            )
+                            err_msg = f"AFAB parent ({parent_id}) was more than {self.MAX_F_AFAB_AGE} years older ({age_years} years) than child at birth ({child_id})"
+                    if err_msg:
+                        errors.insert_one(
+                            {
+                                "user story": User_Story.US12.name,
+                                "error type": Error_Type.ANOMALY.name,
+                                "message": err_msg,
+                            }
+                        )

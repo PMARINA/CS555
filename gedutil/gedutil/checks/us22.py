@@ -2,8 +2,8 @@ from datetime import timedelta
 
 from dateutil.parser import parse as parseDate
 
-from gedutil.base import ID
-from gedutil.mongo_client import families, individuals
+from gedutil.base import ID, Error_Type, User_Story
+from gedutil.mongo_client import errors, families, individuals
 
 from .check import Check
 
@@ -22,7 +22,13 @@ class US22(Check):
                 if keyname not in record:
                     continue
                 if record[keyname] in s:
-                    raise ValueError(f"Non unique {collection} id: {record[keyname]}")
+                    errors.insert_one(
+                        {
+                            "user story": User_Story.US22.name,
+                            "error type": Error_Type.ERROR.name,
+                            "message": f"Non unique {keyname}: {record[keyname]}",
+                        }
+                    )
                 else:
                     s.add(record[keyname])
 

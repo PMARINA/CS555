@@ -2,8 +2,8 @@ from datetime import datetime, timedelta
 
 from dateutil.parser import parse as parseDate
 
-from gedutil.base import ID, GED_Tag
-from gedutil.mongo_client import families, individuals
+from gedutil.base import ID, Error_Type, GED_Tag, User_Story
+from gedutil.mongo_client import errors, families, individuals
 
 from .check import Check
 from .utils.get_fam_info import get_parents_from_doc
@@ -17,7 +17,6 @@ class US37(Check):
         pass
 
     def run(self):
-        results = {}
         for doc in individuals.find():
             if GED_Tag.DEAT.name in doc:  # The person has died
                 death_date = parseDate(doc[GED_Tag.DEAT.name])
@@ -27,8 +26,24 @@ class US37(Check):
                     if len(missed_people["children"]) != 0 or len(
                         missed_people["spouses"] != 0
                     ):
-                        results[doc[ID.IND_ID.name]] = get_info(doc)
-        return results
+                        message = f"{doc[GED_Tag.NAME.name]} ({doc[ID.IND_ID.name]}) is missed by "
+                        if "children" in missed_people:
+                            message += "their children ("
+                            message += ", ".join(missed_people["children"])
+                            message += ")"
+                        if "spouses" in missed_people:
+                            if "children" in missed_people:
+                                message += " and "
+                            message += "their spouses ("
+                            message += ", ".join(missed_people["spouses"])
+                            message += ")"
+                        errors.insert_one(
+                            {
+                                "user story": User_Story.US37.name,
+                                "error type": Error_Type.RESULT.name,
+                                "message": message,
+                            }
+                        )
 
 
 def get_info(doc):
