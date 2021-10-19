@@ -2,8 +2,8 @@ from datetime import timedelta
 
 from dateutil.parser import parse as parseDate
 
-from gedutil.base import ID, GED_Tag
-from gedutil.mongo_client import families, individuals
+from gedutil.base import ID, Error_Type, GED_Tag, User_Story
+from gedutil.mongo_client import errors, families, individuals
 
 from .check import Check
 from .utils.get_fam_info import get_parents_from_doc
@@ -43,8 +43,12 @@ class US25(Check):
                         pass
                         # raise Exception(child_doc) # The child has neither a name nor a birth date
                     if child in children:
-                        raise ValueError(
-                            f"Duplicate child in family {doc[ID.FAM_ID.name]}: {child}"
+                        errors.insert_one(
+                            {
+                                "user story": User_Story.US25.name,
+                                "error type": Error_Type.ANOMALY.name,
+                                "message": f"Duplicate child in family {doc[ID.FAM_ID.name]}: {child}",
+                            }
                         )
                     else:
                         children.add(child)
