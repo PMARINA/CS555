@@ -19,7 +19,6 @@ class US07(Check):
 
     def run(self):
 
-        # Go through the families
         for doc in individuals.find():
             yearsAlive = get_age(doc[ID.IND_ID.name])
             if yearsAlive == None:
