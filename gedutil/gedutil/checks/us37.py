@@ -23,8 +23,9 @@ class US37(Check):
                 now = datetime.now()
                 if (now - death_date).days <= 30:  # Check if they died recently
                     missed_people = get_info(doc)
-                    if len(missed_people["children"]) != 0 or len(
-                        missed_people["spouses"] != 0
+                    if (
+                        len(missed_people["children"]) != 0
+                        or len(missed_people["spouses"]) != 0
                     ):
                         message = f"{doc[GED_Tag.NAME.name]} ({doc[ID.IND_ID.name]}) is missed by "
                         if "children" in missed_people:

@@ -10,7 +10,7 @@ else:
 
 @logger.catch
 def main():
-    parser = Parser(stabilize("", "main/control.ged"))
+    parser = Parser(stabilize("US", "all.ged"))
     parser.read()
     parser.parse()
     run_all_checks()
