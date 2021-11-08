@@ -1,5 +1,6 @@
 from gedutil import (
     US01,
+    US02,
     US03,
     US05,
     US06,
@@ -20,6 +21,7 @@ from gedutil import (
 def run_all():
     for cls in [
         US01,
+        US02,
         US03,
         US05,
         US06,
