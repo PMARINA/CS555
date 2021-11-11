@@ -14,6 +14,11 @@ dependencies:
   - pre-commit
   - PTable
   - pytest-cov
+  - date_diff_calculator.py
+  - ErrorLogger.py
+  - family.py
+  - individual.py
+  - family_relationships
   - pip:
     - pyinputplus
     - pysimplevalidate
