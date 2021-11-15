@@ -8,7 +8,6 @@ from .path_util import stabilize
 class TestUS05(unittest.TestCase):
     """
     This test checks to see that death only occurred after divorce.
-
     """
 
     def test_deat(self):
