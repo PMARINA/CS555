@@ -1,5 +1,6 @@
 from gedutil import (  # Family,
     US01,
+    US02,
     US03,
     US05,
     US06,
@@ -21,6 +22,7 @@ from gedutil import (  # Family,
 def run_all():
     for cls in [
         US01,
+        US02,
         US03,
         US05,
         US06,
