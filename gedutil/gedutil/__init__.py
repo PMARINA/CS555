@@ -6,15 +6,24 @@ if DEBUG_IMPORTS:  # pragma: no cover
 
 from .base import ID, Error_Type, GED_Line, GED_Tag, User_Story
 from .checks.us01 import US01
+from .checks.us02 import US02
 from .checks.us03 import US03
+from .checks.us04 import US04
 from .checks.us05 import US05
 from .checks.us06 import US06
 from .checks.us07 import US07
-from .checks.us08 import Family
+from .checks.us08 import US08
+from .checks.us09 import US09
 from .checks.us10 import US10
+from .checks.us11 import US11
 from .checks.us12 import US12
+from .checks.us13 import US13
+from .checks.us14 import US14
 from .checks.us15 import US15
 from .checks.us16 import US16
+from .checks.us17 import US17
+from .checks.us18 import US18
+from .checks.us19 import US19
 from .checks.us20 import US20
 from .checks.us22 import US22
 from .checks.us25 import US25

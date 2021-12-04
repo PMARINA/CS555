@@ -1,6 +1,7 @@
 import unittest
 
-from gedutil import US20, Error_Type, GED_Line, GED_Tag, Parser, User_Story, errors
+from gedutil import US20, GED_Line, GED_Tag, Parser, errors
+from gedutil.base import Error_Type, User_Story
 
 from .path_util import stabilize
 

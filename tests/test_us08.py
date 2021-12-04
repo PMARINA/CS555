@@ -1,113 +1,50 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Oct 15 16:25:49 2021
-
-@author: manthan
-"""
-
-import datetime
-import sys
 import unittest
 
-sys.path.append("./gedutil/gedutil/checks/")
+from gedutil import US08, Error_Type, GED_Line, GED_Tag, Parser, User_Story, errors
 
-import date_diff_calculator
-import individual
-import us08
-
-# -----------------------------------------------------------------------------
-# User Story #08: Children should be born after marriage of parents
-#                ( and not more than 9 months after their divorce )
-# -----------------------------------------------------------------------------
+from .path_util import stabilize
 
 
-def CreateFather():
-    father = individual.Individual()
-    father.id = "H1"
-    father.firstAndMiddleName = "John James"
-    father.lastname = "Jamison"
+class TestUS08(unittest.TestCase):
+    """
+    Birth too far away from divorce/marriage
 
-    return father
+    """
 
+    def test_birth_after_div(self):
+        u = US08()
+        path = stabilize("US08", "birt_after_div")
+        p = Parser(path)
+        p.read()
+        p.parse()
+        num_raised = 0
+        u.run()
+        for doc in errors.find():
+            num_raised += 1
+            assert doc["user story"] == User_Story.US08.name
+            assert doc["error type"] == Error_Type.ANOMALY.name
+        assert num_raised == 1
 
-def CreateMother():
-    mother = individual.Individual()
-    mother.id = "W1"
-    mother.firstAndMiddleNAme = "Jane Janet"
-    mother.lastname = "Jamison"
-    return mother
+    def test_birth_before_marr(self):
+        u = US08()
+        path = stabilize("US08", "birt_before_marr")
+        p = Parser(path)
+        p.read()
+        p.parse()
+        num_raised = 0
+        u.run()
+        for doc in errors.find():
+            num_raised += 1
+            assert doc["user story"] == User_Story.US08.name
+            assert doc["error type"] == Error_Type.ANOMALY.name
+        assert num_raised == 1
 
-
-def CreateChild(id, birthDate, first):
-    child = individual.Individual()
-    child.id = id
-    child.firstAndMiddleNAme = first
-    child.lastname = "Jamison"
-    child.birthDate = birthDate
-
-    return child
-
-
-def CreateFamily(mother, father, marriageDate, divorceDate):
-    theFamily = us08.Family()
-    theFamily.id = "F1"
-    theFamily.husbandId = father.id
-    theFamily.wifeId = mother.id
-    theFamily.marriageDate = marriageDate
-    theFamily.divorcedDate = divorceDate
-    return theFamily
-
-
-class Test_BirthAfterMarriage(unittest.TestCase):
-    def test_BirthIsAfterMarriage(self):
-        mother = CreateMother()
-        father = CreateFather()
-        child = CreateChild("C1", datetime.date(2000, 11, 1), "Jimmy John")
-        theFamily = CreateFamily(
-            mother, father, datetime.date(2000, 1, 30), datetime.date(2017, 9, 30)
-        )
-        theFamily.children.append(child)
-
-        individualsDict = {}
-        individualsDict[mother.id] = mother
-        individualsDict[father.id] = father
-        individualsDict[child.id] = child
-
-        self.assertTrue(theFamily.run(individualsDict, child))
-
-    def test_BirthIsAfterMarriageNotLongEnough(self):
-        mother = CreateMother()
-        father = CreateFather()
-        child = CreateChild("C1", datetime.date(2000, 11, 1), "Jimmy John")
-        theFamily = CreateFamily(
-            mother, father, datetime.date(2001, 1, 30), datetime.date(2017, 9, 30)
-        )
-        theFamily.children.append(child)
-
-        individualsDict = {}
-        individualsDict[mother.id] = mother
-        individualsDict[father.id] = father
-        individualsDict[child.id] = child
-
-        self.assertFalse(theFamily.run(individualsDict, child))
-
-    def test_BirthIsNotTooLongAfterDivorce(self):
-        mother = CreateMother()
-        father = CreateFather()
-        child = CreateChild("C1", datetime.date(2017, 11, 1), "Jimmy John")
-        theFamily = CreateFamily(
-            mother, father, datetime.date(2000, 1, 30), datetime.date(2016, 9, 1)
-        )
-        theFamily.children.append(child)
-
-        individualsDict = {}
-        individualsDict[mother.id] = mother
-        individualsDict[father.id] = father
-        individualsDict[child.id] = child
-
-        self.assertFalse(theFamily.run(individualsDict, child))
-
-
-if __name__ == "__main__":
-    unittest.main()
+    def test_valid(self):
+        u = US08()
+        path = stabilize("US08", "control")
+        p = Parser(path)
+        p.read()
+        p.parse()
+        u.run()
+        for doc in errors.find():
+            raise Exception("Nothing should've been added to the errors collection")
